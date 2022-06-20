@@ -14,8 +14,13 @@ export default class ActionSelector {
 		let element = this.actionTemplate.cloneNode(true);
 		let iconElement = element.querySelector(".qs-action-icon");
 		let imageTitle = element.querySelector(".qs-action-title");
+		let tagsElement = element.querySelector(".qs-action-tags");
 		
 		imageTitle.innerText = action.label;
+		console.log({action});
+		for (let tag of action.tags) {
+			tagsElement.innerHTML+= `<span>${tag}</span>`;
+		}
 		if (action.icon) {
 			iconElement.classList.add(action.icon);
 		} else {

@@ -10,5 +10,6 @@
   <button class="qs-action" tabindex="0">
     <span class="qs-action-icon dashicons"></span>
     <p class="qs-action-title">title</p>
+    <span class="qs-action-tags"></span>
   </button>
 </template>

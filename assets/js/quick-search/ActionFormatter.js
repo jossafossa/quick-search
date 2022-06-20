@@ -9,11 +9,13 @@ export default class ActionFormatter {
 	format(actions ) {
 		let formatted = [];
 		for (let [index,action] of Object.entries(actions)) {
+
 			let formattedAction = {...action};
 			formattedAction.notifications = this.notifications;
-			console.log(action);
-			if (action.type == "url") formatted.push(new UrlAction(formattedAction));
-			if (action.type == "ajax") formatted.push(new AjaxAction(formattedAction));
+			
+
+			if (action.type === "url") formatted.push(new UrlAction(formattedAction));
+			if (action.type === "ajax") formatted.push(new AjaxAction(formattedAction));
 		}
 		return formatted;
 	}

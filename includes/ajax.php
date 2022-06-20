@@ -1,33 +1,6 @@
 <?php
 
-
-
-// -------------------------------------------- //
-// qs_flush_permalinks
-// -------------------------------------------- //
-if (is_admin()) : // is admin
-  add_action('wp_ajax_nopriv_qs_flush_permalinks', 'qs_flush_permalinks');
-  add_action('wp_ajax_qs_flush_permalinks', 'qs_flush_permalinks');
-  function qs_flush_permalinks() {
-
-    // verify authenticity
-    wp_verify_nonce($_POST['security'], 'qs_nonce');
-
-    $results = [
-      "action" => $_POST['action']
-    ];
-
-    flush_rewrite_rules();
-
-    $error = new WP_Error('404', 'No user information was retrieved.');
-
-    // wp_send_json_error($error);
-    // wp_send_json_success("Your permalinks have been flushed");
-
-    wp_send_json("Your permalinks have been flushed");
-
-    wp_die();
-  }
+if (is_admin()) :
 
   // test error
   add_action('wp_ajax_nopriv_qs_test_error', 'qs_test_error');

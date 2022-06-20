@@ -9,7 +9,13 @@ import ActionHistory from "./ActionHistory.js";
 
 // MAIN
 export default class QuickSearch {
-	constructor(options) {
+	constructor(options, settings) {
+		settings = Object.assign({
+			shortcutValidator: e => e.code == "KeyX" && (e.metaKey || e.ctrlKey) && e.shiftKey
+		}, settings)
+		this.shortcutValidator = settings.shortcutValidator;
+
+
     // actions
 		this.options = options;
 		for (let [index, option] of Object.entries(options)) {
@@ -76,7 +82,7 @@ export default class QuickSearch {
 
 		// open popup
 		document.addEventListener("keydown", e => {
-			if (e.code == "KeyX" && (e.metaKey || e.ctrlKey) && e.shiftKey) {
+			if (this.shortcutValidator(e)) {
 				e.preventDefault();
 				this.actionPopup.show();
 				inputListener.focus();
@@ -92,8 +98,8 @@ export default class QuickSearch {
 		}
 		
 		// hide popup
-		inputListener.on("Escape", action => this.actionPopup.hide());
-		inputListener.onBlur(e => this.actionPopup.hide())
+		inputListener.on("Escape", () => this.actionPopup.hide());
+		inputListener.onBlur(() => this.actionPopup.hide())
 
 
 

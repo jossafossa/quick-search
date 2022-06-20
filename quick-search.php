@@ -17,4 +17,4 @@ include_once QS_PLUGIN_PATH . "/includes/helpers.php";
 include_once QS_PLUGIN_PATH . "/includes/admin.php";
 include_once QS_PLUGIN_PATH . "/includes/filters.php";
 include_once QS_PLUGIN_PATH . "/includes/ajax.php";
-include_once QS_PLUGIN_PATH . "/includes/default_actions.php";
+include_once QS_PLUGIN_PATH . "/includes/actions/_autoload.php";

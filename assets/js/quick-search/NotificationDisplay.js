@@ -31,10 +31,12 @@ export default class NotificationDisplay {
 		element.innerHTML = "";
 		element.innerHTML += (image) ? `<img src=${image}></img>` : "";
 		element.innerHTML += `<span>${text}</span>`;
+		let close = document.createElement("i");
+		element.append(close);
 		this.container.appendChild(element);
 
 		// enable click to close
-		element.addEventListener("click", () => element.classList.remove("is-active"));
+		close.addEventListener("click", () => element.classList.remove("is-active"));
 		
 		await this.wait(20);
 		element.classList.add("is-active");

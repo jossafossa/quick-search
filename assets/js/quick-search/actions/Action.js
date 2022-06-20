@@ -9,12 +9,14 @@ export default class Action {
 			notifications: false,
 			id: 0,
 			icon: false,
+			tags: [],
 		}, settings)
 		this.label = settings.label;
 		this.type = settings.type;
 		this.notifications = settings.notifications;
 		this.id = settings.id;
 		this.icon = settings.icon;
+		this.tags = settings.tags;
 	}
 		
 	execute() {

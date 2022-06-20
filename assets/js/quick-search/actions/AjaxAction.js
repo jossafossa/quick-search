@@ -30,10 +30,10 @@ export default class AjaxAction extends Action {
 		this.sendNotification(`Executing ${this.label}`);
 		let result = this.wpAjax(this.action, {}, this.executeSignal).then(result => {
 			console.log(result);
-			this.sendSuccessNotification(`Response from ${this.label}: ${result.data}`);
+			this.sendSuccessNotification(`Response from ${this.label}: <br>${result.data}`);
 		}).catch(result => {
 			console.log(result);
-			this.sendErrorNotification(`Response from ${this.label}: ${result.statusText}`);
+			this.sendErrorNotification(`Response from ${this.label}: <br>${result.statusText}`);
 		});
 	}
 
