@@ -51,7 +51,7 @@ const uuid = `${props.label}-${Math.floor(Math.random() * 1000)}`;
 
 .input-wrapper {
   display: flex;
-  align-items: stretch;
+  align-items: center;
   background-color: transparent;
   position: relative;
   padding: .25rem;
@@ -62,11 +62,14 @@ const uuid = `${props.label}-${Math.floor(Math.random() * 1000)}`;
   >span {
     width: 1.5rem;
     display: flex;
-    height: 100%;
+    // height: 100%;
     align-items: center;
     justify-content: center;
     position: absolute;
     left: 0;
+    opacity: 0.5;
+    padding: .25rem 0;
+    line-height: 1;
 
     &:nth-last-child(1) {
       left: auto;
@@ -83,10 +86,11 @@ const uuid = `${props.label}-${Math.floor(Math.random() * 1000)}`;
     flex: 1;
     background-color: transparent;
     border: 0px solid transparent;
-    padding: .25rem 1.5rem;
+    padding: .25rem 1rem;
     line-height: 1;
     color: inherit;
     position: relative;
+    font-size: inherit;
 
 
     &:focus {
