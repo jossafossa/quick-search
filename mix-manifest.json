@@ -1,4 +1,6 @@
 {
     "/build/js/bundle.js": "/build/js/bundle.js",
+    "/build/js/settings.js": "/build/js/settings.js",
+    "/build/css/settings.css": "/build/css/settings.css",
     "/build/css/style.css": "/build/css/style.css"
 }

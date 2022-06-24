@@ -173,6 +173,17 @@ eval("__webpack_require__.r(__webpack_exports__);\n// extracted by mini-css-extr
 
 /***/ }),
 
+/***/ "./assets/scss/settings.scss":
+/*!***********************************!*\
+  !*** ./assets/scss/settings.scss ***!
+  \***********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n// extracted by mini-css-extract-plugin\n//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiLi9hc3NldHMvc2Nzcy9zZXR0aW5ncy5zY3NzLmpzIiwibWFwcGluZ3MiOiI7QUFBQSIsInNvdXJjZXMiOlsid2VicGFjazovL21hcC12aWV3ZXIvLi9hc3NldHMvc2Nzcy9zZXR0aW5ncy5zY3NzP2RlZWEiXSwic291cmNlc0NvbnRlbnQiOlsiLy8gZXh0cmFjdGVkIGJ5IG1pbmktY3NzLWV4dHJhY3QtcGx1Z2luXG5leHBvcnQge307Il0sIm5hbWVzIjpbXSwic291cmNlUm9vdCI6IiJ9\n//# sourceURL=webpack-internal:///./assets/scss/settings.scss\n");
+
+/***/ }),
+
 /***/ "./node_modules/regenerator-runtime/runtime.js":
 /*!*****************************************************!*\
   !*** ./node_modules/regenerator-runtime/runtime.js ***!
@@ -294,6 +305,7 @@ eval("/**\n * Copyright (c) 2014-present, Facebook, Inc.\n *\n * This source cod
 /******/ 		// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
 /******/ 		var installedChunks = {
 /******/ 			"/build/js/bundle": 0,
+/******/ 			"build/css/settings": 0,
 /******/ 			"build/css/style": 0
 /******/ 		};
 /******/ 		
@@ -344,8 +356,9 @@ eval("/**\n * Copyright (c) 2014-present, Facebook, Inc.\n *\n * This source cod
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
-/******/ 	__webpack_require__.O(undefined, ["build/css/style"], () => (__webpack_require__("./assets/js/bundle.js")))
-/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["build/css/style"], () => (__webpack_require__("./assets/scss/style.scss")))
+/******/ 	__webpack_require__.O(undefined, ["build/css/settings","build/css/style"], () => (__webpack_require__("./assets/js/bundle.js")))
+/******/ 	__webpack_require__.O(undefined, ["build/css/settings","build/css/style"], () => (__webpack_require__("./assets/scss/style.scss")))
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["build/css/settings","build/css/style"], () => (__webpack_require__("./assets/scss/settings.scss")))
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
 /******/ 	
 /******/ })()
