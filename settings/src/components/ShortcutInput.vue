@@ -54,9 +54,10 @@ const uuid = `${props.label}-${Math.floor(Math.random() * 1000)}`;
   align-items: stretch;
   background-color: transparent;
   position: relative;
-  padding: .5rem;
-  margin: -.5rem;
-  background-color: rgba(255, 255, 255, 0.1);
+  padding: .25rem;
+  margin: -.25rem 0;
+  background-color: var(--shortcut-input-background, rgb(22, 22, 22));
+  z-index: 0;
 
   >span {
     width: 1.5rem;
@@ -73,13 +74,25 @@ const uuid = `${props.label}-${Math.floor(Math.random() * 1000)}`;
     }
   }
 
+  &:focus-within {
+    z-index: 2;
+    background-color: var(--shortcut-input-focus-background, rgb(44, 44, 44));
+  }
+
   >input {
     flex: 1;
     background-color: transparent;
     border: 0px solid transparent;
     padding: .25rem 1.5rem;
     line-height: 1;
-    color: inherit
+    color: inherit;
+    position: relative;
+
+
+    &:focus {
+      box-shadow: 0 0 0 transparent;
+    }
+
   }
 }
 </style>

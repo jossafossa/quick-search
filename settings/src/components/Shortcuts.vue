@@ -1,23 +1,20 @@
 <template>
   <div class="shortcuts">
-    <Shortcut @remove="emit('remove', index)" :name="name" :type="type" v-for="(shortcut, index) of props.shortcuts"
-      :key="index" :index="index" :shortcut="shortcut">
-    </Shortcut>
-    <button @click.prevent="emit('add')">Add shortcut</button>
+    <slot></slot>
+    <button @click.prevent="emit('add')">+</button>
   </div>
 </template>
 
 <script setup>
 // imports
-import Shortcut from '@/components/Shortcut.vue';
-import { defineProps, defineEmits } from "vue";
+import { defineEmits } from "vue";
 
 
 // props
-const props = defineProps({
-  shortcuts: Array,
-  name: String
-})
+// const props = defineProps({
+//   shortcuts: Array,
+//   name: String
+// })
 
 const emit = defineEmits(["add", "remove"]);
 
@@ -26,9 +23,25 @@ const emit = defineEmits(["add", "remove"]);
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 .shortcuts {
-  background-color: black;
+  --shortcuts-background: #1d2327;
+  --shortcut-input-background: #2c3337;
+  --shortcut-input-focus-background: #3f484e;
+  background-color: var(--shortcuts-background);
   color: white;
   padding: 1rem;
 
+  >button {
+    margin-top: .5rem;
+    background-color: var(--shortcut-input-background);
+    border: none;
+    width: 100%;
+    padding: .25rem 1rem;
+    color: white;
+    cursor: pointer;
+
+    &:hover {
+      background-color: var(--shortcut-input-focus-background);
+    }
+  }
 }
 </style>

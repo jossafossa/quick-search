@@ -125,12 +125,7 @@ add_action('admin_init', 'qs_custom_items');
 function qs_custom_urls_callback($args) {
   // Get the value of the setting we've registered with register_setting()
   $options = get_option('qs_options');
-  $saved_urls = isset($options["custom_urls"]) ? $options["custom_urls"] : [[
-    "label" => "",
-    "icon" => "",
-    "type" => "",
-    "url" => ""
-  ]]; ?>
+  $saved_urls = isset($options["custom_urls"]) ? $options["custom_urls"] : []; ?>
 
   <script>
     window.qsShortcuts = <?= json_encode($saved_urls); ?>;

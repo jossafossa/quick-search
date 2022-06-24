@@ -13,6 +13,7 @@ include_once QS_ACTIONS_PATH . "/themes.php";
 include_once QS_ACTIONS_PATH . "/tools.php";
 include_once QS_ACTIONS_PATH . "/users.php";
 include_once QS_ACTIONS_PATH . "/misc.php";
+include_once QS_ACTIONS_PATH . "/custom.php";
 
 
 include_once QS_ACTIONS_PATH . "/vendor/_autoload.php";
