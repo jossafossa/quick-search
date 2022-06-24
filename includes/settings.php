@@ -125,47 +125,18 @@ add_action('admin_init', 'qs_custom_items');
 function qs_custom_urls_callback($args) {
   // Get the value of the setting we've registered with register_setting()
   $options = get_option('qs_options');
-  $saved_urls = isset($options["custom_urls"]) ? $options["custom_urls"] : [];
-  qs_log($options); ?>
+  $saved_urls = isset($options["custom_urls"]) ? $options["custom_urls"] : [[
+    "label" => "",
+    "icon" => "",
+    "type" => "",
+    "url" => ""
+  ]]; ?>
 
-  <!-- <script>
-    window.vueAppSrc = "https://your-cool-domain.com/files/"
-  </script> -->
+  <script>
+    window.qsShortcuts = <?= json_encode($saved_urls); ?>;
+  </script>
 
   <div id="app"></div>
-
-  <div class="qs-custom-urls">
-    <?php foreach ($saved_urls as $id => $saved_url) : ?>
-
-      <?php [
-        "label" => $label,
-        "icon" => $icon,
-        "type" => $type,
-        "url" => $url
-      ] = $saved_url;
-      $name_prefix = "qs_options[custom_urls][$id]";
-      ?>
-      <div class="qs-custom-url" data-qs-custom-url="<?= $id ?>">
-        <input type="text" value="<?= $label ?>" placeholder="label" name="<?= $name_prefix ?>[label]">
-        <input type="hidden" value="<?= $icon ?>" placeholder="icon" name="<?= $name_prefix ?>[icon]">
-        <input type="hidden" value="<?= $type ?>" placeholder="type" name="<?= $name_prefix ?>[type]">
-        <input type="text" value="<?= $url ?>" placeholder="url" name="<?= $name_prefix ?>[url]">
-        <button data-qs-remove-url>Remove url</button>
-      </div>
-
-    <?php endforeach; ?>
-  </div>
-  <button data-qs-add-url>Add another url</button>
-
-  <template data-qs-url-template>
-    <div class="qs-custom-url" data-qs-url-id>
-      <input type="text" placeholder="label">
-      <input type="hidden" placeholder="icon">
-      <input type="hidden" placeholder="type">
-      <input type="text" placeholder="url">
-      <button data-qs-remove-url>Remove url</button>
-    </div>
-  </template>
 
   <!-- <textarea name="qs_options[value]" id="" cols="30" rows="10"><?= $value; ?></textarea> -->
   <?php /*

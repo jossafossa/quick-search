@@ -1,28 +1,30 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div>
+    <Shortcuts name="custom_urls" @remove="remove" type="url" :shortcuts="shortcuts" @add="addURL">
+    </Shortcuts>
+  </div>
 </template>
 
-<script>
-import HelloWorld from './components/HelloWorld.vue'
+<script setup>
+import Shortcuts from '@/components/Shortcuts.vue';
+import { onMounted, ref } from 'vue';
 
-console.log("hoho kerstman")
+const shortcuts = ref([]);
 
-export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
+onMounted(() => {
+  shortcuts.value = window.qsShortcuts;
+})
+
+const addURL = () => {
+  shortcuts.value.push([]);
 }
+
+const remove = (id) => {
+  shortcuts.value.splice(id, 1);
+}
+
 </script>
 
 <style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
 </style>
+
