@@ -16,4 +16,4 @@ include_once QS_ACTIONS_PATH . "/misc.php";
 include_once QS_ACTIONS_PATH . "/custom.php";
 
 
-// include_once QS_ACTIONS_PATH . "/vendor/_autoload.php";
+include_once QS_ACTIONS_PATH . "/vendor/_autoload.php";
