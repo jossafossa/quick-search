@@ -412,7 +412,6 @@
 .qs-action-popup .qs-action.is-selected, .qs-action-popup .qs-action:hover, .qs-action-popup .qs-action:focus {
   color: var(--action-active-color);
   background-color: var(--action-active-background);
-  font-weight: 600;
 }
 .qs-action-popup .qs-action.is-selected > .qs-action-icon, .qs-action-popup .qs-action:hover > .qs-action-icon, .qs-action-popup .qs-action:focus > .qs-action-icon {
   color: var(--action-active-color);

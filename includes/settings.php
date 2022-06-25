@@ -4,7 +4,8 @@
 // REGISTER MENU
 // -------------------------------------------- //
 function qs_options_page() {
-  add_menu_page(
+  add_submenu_page(
+    'options-general.php',
     'Quick search',
     'Quick search Options',
     'manage_options',
