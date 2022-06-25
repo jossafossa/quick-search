@@ -41,7 +41,7 @@ add_action('admin_init', 'qs_settings_init');
 function qs_enqueue_settings_scripts($hook_suffix) {
 
   // bail early if the settings page is not correct
-  if ($hook_suffix != 'toplevel_page_qs_option_group') return;
+  if ($hook_suffix != 'settings_page_qs_option_group') return;
 
   // scripts
   wp_register_script("qs_settings", QS_PLUGIN_URL . 'build/js/settings.js');
@@ -80,21 +80,41 @@ function qs_options_page_html() {
   }
 
   // MESSAGES
-  if (isset($_GET['settings-updated'])) {
-    add_settings_error('qs_messages', 'qs_message', __('Settings Saved', 'quicksearch'), 'updated');
-  }
+  // if (isset($_GET['settings-updated'])) {
+  //   add_settings_error('qs_messages', 'qs_message', __('Settings Saved', 'quicksearch'), 'updated');
+  // }
 
   // show error/update messages
-  settings_errors('qs_messages');
+  // settings_errors('qs_messages');
 ?>
   <div class="wrap">
     <h1><?= esc_html(get_admin_page_title()); ?></h1>
     <form action="options.php" method="post">
-      <?php
-      settings_fields('qs_option_group');
-      do_settings_sections('qs_option_group');
-      submit_button('Save Settings');
-      ?>
+      
+      <?php settings_fields('qs_option_group'); ?>
+      <?php 
+        // Get the value of the setting we've registered with register_setting()
+        $saved_urls = qs_get_option("custom_urls");
+        $disabled_actions = qs_get_option("disabled_actions");
+        $actions = apply_filters( 'qs_actions', [] );
+
+        // enabled actions
+        $enabled_actions = [];
+        foreach($actions as $id => $value) {
+          if (!in_array($id, $disabled_actions)) {
+            $enabled_actions[] = $id;
+          }
+        }
+        ?>
+        <script>
+          window.qsCustomURLs = <?= json_encode($saved_urls); ?>;
+          window.qsAllActions = <?= json_encode($actions); ?>;
+          window.qsEnabledActions = <?= json_encode($enabled_actions); ?>;
+          window.qsDisabledActions = <?= json_encode($disabled_actions); ?>;
+        </script>
+
+        <div id="app"></div>
+      <?php submit_button('Save Settings');?>
     </form>
   </div>
 <?php

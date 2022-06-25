@@ -5,7 +5,7 @@
 add_filter("qs_actions", "qs_default_plugin_links", 1, 1);
 function qs_default_plugin_links($actions) {
 
-  $actions[] = [
+  $actions["plugins_all"] = [
     "label" => __("All plugins", "quicksearch"),
     "icon" => "dashicons-screenoptions",
     "tags" => ["all plugins", "archive plugins"],
@@ -13,7 +13,7 @@ function qs_default_plugin_links($actions) {
     "url" => admin_url() . "plugins.php",
   ];
 
-  $actions[] = [
+  $actions["plugins_new"] = [
     "label" => __("Upload plugin", "quicksearch"),
     "icon" => "dashicons-plus",
     "tags" => ["upload plugin", "new plugin", "create plugin"],

@@ -23,7 +23,7 @@ const uuid = `${props.label}-${Math.floor(Math.random() * 1000)}`;
 
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .shortcut-input {
   display: flex;
   align-items: center;

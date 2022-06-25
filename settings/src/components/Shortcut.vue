@@ -199,7 +199,7 @@ const emit = defineEmits(["remove", 'add']);
 
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .shortcut {
   --bracket-size: 1rem;
   display: flex;

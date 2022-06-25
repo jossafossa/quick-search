@@ -1,10 +1,17 @@
 <div class="qs-action-popup">
   <div class="qs-action-popup-inner">
     <div class="qs-input-container">
+
       <input type="text" class="qs-search-term" placeholder="Search for pages, settings etc.">
+
       <a href="<?= qs_get_settings_url(); ?>">
         <span class="dashicons dashicons-admin-generic"></span>
       </a>
+
+      <button data-qs-help>
+        <span class="dashicons dashicons-editor-help"></span>
+      </button>
+
     </div>
 
     <h2 class="qs-hidden qs-visible" data-qs-history-title><?= __('Action History', 'quicksearch'); ?></h2>

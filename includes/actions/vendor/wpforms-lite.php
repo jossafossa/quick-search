@@ -6,7 +6,7 @@ add_filter("qs_actions", "qs_wpforms_lite", 1, 1);
 function qs_wpforms_lite($actions) {
   
   // all forms
-  $actions[] = [
+  $actions["wpforms_all"] = [
     "label" => __("WPForms", "quicksearch"),
     "icon" => "dashicons-admin-tools",
     "tags" => ["forms", "all forms", "wpforms"],
@@ -15,7 +15,7 @@ function qs_wpforms_lite($actions) {
   ];
   
   // new form
-  $actions[] = [
+  $actions["wpforms_new"] = [
     "label" => __("New WPForm", "quicksearch"),
     "icon" => "dashicons-admin-tools",
     "tags" => ["new form", "create form", "wpforms"],
@@ -24,7 +24,7 @@ function qs_wpforms_lite($actions) {
   ];
 
   // entries
-  $actions[] = [
+  $actions["wpforms_entries"] = [
     "label" => __("WPForm entries", "quicksearch"),
     "icon" => "dashicons-admin-tools",
     "tags" => ["form entries", "wpforms"],
@@ -33,56 +33,56 @@ function qs_wpforms_lite($actions) {
   ];
 
   // settings
-  $actions[] = [
+  $actions["wpforms_settings"] = [
     "label" => __("WPForm settings", "quicksearch"),
     "icon" => "dashicons-admin-tools",
     "tags" => ["form settings", "form preferences", "wpforms"],
     "type" => "url",
     "url" => admin_url() . "admin.php?page=wpforms-settings",
   ];
-  $actions[] = [
+  $actions["wpforms_settings_email"] = [
     "label" => __("WPForm email settings", "quicksearch"),
     "icon" => "dashicons-admin-tools",
     "tags" => ["form email settings", "form email preferences", "wpforms"],
     "type" => "url",
     "url" => admin_url() . "admin.php?page=wpforms-settings&view=email",
   ];
-  $actions[] = [
+  $actions["wpforms_settings_captcha"] = [
     "label" => __("WPForm captcha settings", "quicksearch"),
     "icon" => "dashicons-admin-tools",
     "tags" => ["form captcha settings", "form captcha preferences", "wpforms"],
     "type" => "url",
     "url" => admin_url() . "admin.php?page=wpforms-settings&view=captcha",
   ];
-  $actions[] = [
+  $actions["wpforms_settings_validation"] = [
     "label" => __("WPForm validation settings", "quicksearch"),
     "icon" => "dashicons-admin-tools",
     "tags" => ["form validation settings", "form validation preferences", "wpforms"],
     "type" => "url",
     "url" => admin_url() . "admin.php?page=wpforms-settings&view=validation",
   ];
-  $actions[] = [
+  $actions["wpforms_settings_intagrations"] = [
     "label" => __("WPForm integrations settings", "quicksearch"),
     "icon" => "dashicons-admin-tools",
     "tags" => ["form integrations settings", "form integrations preferences", "wpforms"],
     "type" => "url",
     "url" => admin_url() . "admin.php?page=wpforms-settings&view=integrations",
   ];
-  $actions[] = [
+  $actions["wpforms_settings_geolocation"] = [
     "label" => __("WPForm geolocation settings", "quicksearch"),
     "icon" => "dashicons-admin-tools",
     "tags" => ["form geolocation settings", "form geolocation preferences", "wpforms"],
     "type" => "url",
     "url" => admin_url() . "admin.php?page=wpforms-settings&view=geolocation",
   ];
-  $actions[] = [
+  $actions["wpforms_settings_misc"] = [
     "label" => __("WPForm misc settings", "quicksearch"),
     "icon" => "dashicons-admin-tools",
     "tags" => ["form misc settings", "form misc preferences", "wpforms"],
     "type" => "url",
     "url" => admin_url() . "admin.php?page=wpforms-settings&view=misc",
   ];
-  $actions[] = [
+  $actions["wpforms_settings_access"] = [
     "label" => __("WPForm access settings", "quicksearch"),
     "icon" => "dashicons-admin-tools",
     "tags" => ["form access settings", "form access preferences", "wpforms"],
@@ -91,28 +91,28 @@ function qs_wpforms_lite($actions) {
   ];
 
   // tools
-  $actions[] = [
+  $actions["wpforms_tools_import"] = [
     "label" => __("WPForm import", "quicksearch"),
     "icon" => "dashicons-admin-tools",
     "tags" => ["form import tool", "wpforms"],
     "type" => "url",
     "url" => admin_url() . "admin.php?page=wpforms-tools",
   ];
-  $actions[] = [
+  $actions["wpforms_tools_export"] = [
     "label" => __("WPForm export", "quicksearch"),
     "icon" => "dashicons-admin-tools",
     "tags" => ["form export tool", "wpforms"],
     "type" => "url",
     "url" => admin_url() . "admin.php?page=wpforms-tools&view=export",
   ];
-  $actions[] = [
+  $actions["wpforms_tools_system"] = [
     "label" => __("WPForm system info", "quicksearch"),
     "icon" => "dashicons-admin-tools",
     "tags" => ["form system info tool", "wpforms"],
     "type" => "url",
     "url" => admin_url() . "admin.php?page=wpforms-tools&view=system",
   ];
-  $actions[] = [
+  $actions["wpforms_tools_logs"] = [
     "label" => __("WPForm logs", "quicksearch"),
     "icon" => "dashicons-admin-tools",
     "tags" => ["form logs", "wpforms"],
@@ -121,7 +121,7 @@ function qs_wpforms_lite($actions) {
   ];
 
   // addons
-  $actions[] = [
+  $actions["wpforms_addons"] = [
     "label" => __("WPForm addons", "quicksearch"),
     "icon" => "dashicons-admin-tools",
     "tags" => ["form addons", "form extensions", "wpforms"],
@@ -130,7 +130,7 @@ function qs_wpforms_lite($actions) {
   ];
 
   // analytics
-  $actions[] = [
+  $actions["wpforms_analytics"] = [
     "label" => __("WPForm analytics", "quicksearch"),
     "icon" => "dashicons-admin-tools",
     "tags" => ["form analytics", "wpforms"],
@@ -139,7 +139,7 @@ function qs_wpforms_lite($actions) {
   ];
   
   // analytics
-  $actions[] = [
+  $actions["wpforms_smtp"] = [
     "label" => __("WPForm smtp", "quicksearch"),
     "icon" => "dashicons-admin-tools",
     "tags" => ["form smtp", "wpforms"],
@@ -148,7 +148,7 @@ function qs_wpforms_lite($actions) {
   ];
 
   // about
-  $actions[] = [
+  $actions["wpforms_about"] = [
     "label" => __("WPForm about", "quicksearch"),
     "icon" => "dashicons-admin-tools",
     "tags" => ["form about", "wpforms"],
@@ -157,7 +157,7 @@ function qs_wpforms_lite($actions) {
   ];
 
   // community
-  $actions[] = [
+  $actions["wpforms_community"] = [
     "label" => __("WPForm community", "quicksearch"),
     "icon" => "dashicons-admin-tools",
     "tags" => ["form community", "wpforms"],

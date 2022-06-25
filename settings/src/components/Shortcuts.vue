@@ -23,9 +23,9 @@ const emit = defineEmits(["add", "remove"]);
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 .shortcuts {
-  --shortcuts-background: #1d2327;
-  --shortcut-input-background: #2c3337;
-  --shortcut-input-focus-background: #3f484e;
+  --shortcuts-background: var(--qs-background);
+  --shortcut-input-background: var(--qs-foreground);;
+  --shortcut-input-focus-background: var(--qs-highlight);
   background-color: var(--shortcuts-background);
   color: white;
   padding: 1rem;

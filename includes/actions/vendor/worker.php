@@ -4,7 +4,7 @@
 // -------------------------------------------- //
 add_filter("qs_actions", "qs_managewp", 1, 1);
 function qs_managewp($actions) {
-  $actions[] = [
+  $actions["managewp_get_connection_key"] = [
     "label" => __("ManageWP get connection key", "quicksearch"),
     "icon" => "dashicons-admin-tools",
     "tags" => ["ManageWP get connection key", "managewp"],

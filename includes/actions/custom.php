@@ -11,8 +11,9 @@ function qs_custom_urls($actions) {
       "type" => $type,
       "url" => $url
     ] = $saved_url;
+    $id = sanitize_title($label);
     if ($label && $icon && $type && $url) {
-      $actions[] = $saved_url;
+      $actions["custom_" . $id] = $saved_url;
     }
   }
 

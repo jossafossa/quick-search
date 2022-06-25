@@ -5,21 +5,14 @@
 // -------------------------------------------- //
 add_filter("qs_actions", "qs_default_ajax_actions", 1, 1);
 function qs_default_ajax_actions($actions) {
-  $actions[] = [
+  $actions["ajax_save_permalinks"] = [
     "label" => __("save permalinks", "quicksearch"),
     "icon" => "dashicons-controls-play",
     "tags" => ["save permalinks", "flush permalinks", "clear permalinks"],
     "type" => "ajax",
     "action" => "qs_flush_permalinks",
   ];
-  $actions[] = [
-    "label" => __("clear cache", "quicksearch"),
-    "icon" => "dashicons-controls-play",
-    "tags" => ["clear cache", "flush cache"],
-    "type" => "ajax",
-    "action" => "qs_clear_cache",
-  ];
-  $actions[] = [
+  $actions["ajax_log_users"] = [
     "label" => __("log current users", "quicksearch"),
     "icon" => "dashicons-controls-play",
     "tags" => ["log current users", "log active users"],

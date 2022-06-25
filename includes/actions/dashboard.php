@@ -6,7 +6,7 @@
 add_filter("qs_actions", "qs_default_dashboard_links", 1, 1);
 function qs_default_dashboard_links($actions) {
 
-  $actions[] = [
+  $actions["dashboard"] = [
     "label" => __("Wordpress dashboard", "quicksearch"),
     "icon" => "dashicons-dashboard",
     "tags" => ["wordpress dashboard", "home", "homepage"],
@@ -14,7 +14,7 @@ function qs_default_dashboard_links($actions) {
     "url" => admin_url() . "index.php",
   ];
 
-  $actions[] = [
+  $actions["dashboard_updates"] = [
     "label" => __("Wordpress updates", "quicksearch"),
     "icon" => "dashicons-dashboard",
     "tags" => ["wordpress updates"],

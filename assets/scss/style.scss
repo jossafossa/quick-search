@@ -1,10 +1,16 @@
 // RESET
 // -----
-.qs-popup-container {
+.qs-popup-container,
+.qs-action-popup {
   box-sizing: border-box;
 
   * {
     box-sizing: border-box;
+  }
+
+  button {
+    all: unset;
+    cursor: pointer;
   }
 }
 
@@ -26,6 +32,7 @@
   display: flex;
   flex-direction: column;
   z-index: 999999999;
+  font-family: monospace;
 
   > * {
     --color: transparent;
@@ -139,27 +146,29 @@
 }
 
 //action popup
+:root {
+  --qs-background: rgba(0, 0, 0, 0.7);
+  --qs-foreground: #1c2228;
+  --qs-block-background: #282f36;
+  --qs-input-background: var(--qs-block-background);
+  --qs-input-outline-color: #{rgba(#2271b1, 0.7)};
+  --qs-input-placeholder-color: rgba(255, 255, 255, 0.3);
+  --qs-input-color: white;
+  --qs-selection: rgb(159, 206, 255, 0.35);
+  --qs-radius: 0px;
+  --qs-spacing: 12px;
+  --qs-action-background: var(--qs-block-background);
+  --qs-action-color: white;
+  --qs-action-active-background: #2271b1;
+  --qs-action-active-color: white;
+}
 .qs-action-popup {
-  --background: rgba(0, 0, 0, 0.7);
-  --foreground: #1c2228;
-  --block-background: #282f36;
-  --input-background: var(--block-background);
-  --input-outline-color: #{rgba(#2271b1, 0.7)};
-  --input-placeholder-color: rgba(255, 255, 255, 0.3);
-  --input-color: white;
-  --action-background: var(--block-background);
-  --action-color: white;
-  --action-active-background: #2271b1;
-  --action-active-color: white;
-  --selection: rgb(159, 206, 255, 0.35);
-  --radius: 0px;
-  --spacing: 12px;
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: var(--background);
+  background-color: var(--qs-background);
   display: flex;
   transition: 0.15s ease;
   opacity: 0;
@@ -175,25 +184,25 @@
     flex-direction: column;
     margin: auto;
     align-items: stretch;
-    padding: var(--spacing);
-    border-radius: var(--radius);
-    background-color: var(--foreground);
+    padding: var(--qs-spacing);
+    border-radius: var(--qs-radius);
+    background-color: var(--qs-foreground);
     transition-delay: 0.15s;
     opacity: 0;
     transform: translateY(32px);
     transition: 0.15s ease;
-    color: var(--input-color);
+    color: var(--qs-input-color);
 
     > h2 {
       color: inherit;
       margin: 0;
       font-size: 100%;
-      padding: 0 var(--spacing);
-      margin-bottom: var(--spacing);
+      padding: 0 var(--qs-spacing);
+      margin-bottom: var(--qs-spacing);
     }
 
     > .qs-input-container {
-      margin-bottom: calc(var(--spacing) * 2);
+      margin-bottom: calc(var(--qs-spacing) * 2);
     }
 
     > .qs-actions {
@@ -201,6 +210,7 @@
       display: flex;
       flex-direction: column;
       overflow: auto;
+      scroll-behavior: smooth;
       // 			transform:rotate(180deg);
 
       // 			> * {
@@ -208,7 +218,7 @@
       // 			}
 
       > *:not(:nth-last-child(1)) {
-        margin-bottom: calc(var(--spacing) / 2);
+        margin-bottom: calc(var(--qs-spacing) / 2);
       }
     }
   }
@@ -254,11 +264,11 @@
   .qs-input-container {
     display: flex;
     align-items: center;
-    background-color: var(--input-background);
-    box-shadow: 0 0 0 0px var(--input-outline-color);
+    background-color: var(--qs-input-background);
+    box-shadow: 0 0 0 0px var(--qs-input-outline-color);
     transition: 0.15s ease;
-    padding-right: var(--spacing);
-    gap: var(--spacing);
+    padding-right: var(--qs-spacing);
+    gap: var(--qs-spacing);
 
     .qs-search-term {
       width: 100%;
@@ -271,7 +281,7 @@
     }
 
     &:focus-within {
-      box-shadow: 0 0 0 3px var(--input-outline-color);
+      box-shadow: 0 0 0 3px var(--qs-input-outline-color);
     }
   }
 
@@ -281,16 +291,16 @@
     min-width: 0;
     background-color: transparent;
     line-height: 1;
-    padding: var(--spacing) 16px;
+    padding: var(--qs-spacing) 16px;
     font-size: 150%;
     border: 0px;
-    border-radius: var(--radius);
-    color: var(--input-color);
+    border-radius: var(--qs-radius);
+    color: var(--qs-input-color);
     font-weight: 500;
 
     &::selection {
-      color: var(--input-color);
-      background: var(--selection);
+      color: var(--qs-input-color);
+      background: var(--qs-selection);
     }
 
     &:focus {
@@ -299,74 +309,8 @@
     }
 
     &::placeholder {
-      color: var(--input-placeholder-color);
+      color: var(--qs-input-placeholder-color);
       font-weight: 600;
-    }
-  }
-
-  // action styling
-  .qs-action {
-    all: unset;
-    display: flex;
-    align-items: center;
-    padding: calc(var(--spacing) / 2) var(--spacing);
-    background-color: var(--action-background);
-    color: var(--action-color);
-    border-radius: var(--radius);
-    user-select: none;
-    cursor: pointer;
-    // transition: 0.15s ease;
-    animation: QSfadeIn 0.15s;
-
-    @keyframes QSfadeIn {
-      from {
-        opacity: 0.5;
-      }
-
-      to {
-        opacity: 1;
-      }
-    }
-
-    > .qs-action-icon {
-      margin-right: calc(var(--spacing) / 2);
-      color: rgba(255, 255, 255, 0.5);
-      font-size: 150%;
-      margin-left: -4px;
-      transition: 0s linear;
-    }
-
-    > p {
-      flex: 1;
-      margin: 0;
-    }
-
-    > .qs-action-tags {
-      display: flex;
-      gap: calc(var(--spacing) / 2);
-      font-weight: 600;
-
-      > * {
-        font-size: 80%;
-        background-color: rgba(255, 255, 255, 0.1);
-        padding: 2px 6px;
-        border-radius: var(--radius);
-      }
-    }
-
-    &.is-selected,
-    &:hover,
-    &:focus {
-      color: var(--action-active-color);
-      background-color: var(--action-active-background);
-
-      > .qs-action-icon {
-        color: var(--action-active-color);
-      }
-
-      > .qs-action-tags > span {
-        background-color: rgba(0, 0, 0, 0.1);
-      }
     }
   }
 
@@ -376,6 +320,72 @@
 
     &.qs-visible {
       display: block;
+    }
+  }
+}
+
+// action styling
+body .qs-action {
+  all: unset;
+  display: flex;
+  align-items: center;
+  padding: calc(var(--qs-spacing) / 2) var(--qs-spacing);
+  background-color: var(--qs-action-background);
+  color: var(--qs-action-color);
+  border-radius: var(--qs-radius);
+  user-select: none;
+  cursor: pointer;
+  // transition: 0.15s ease;
+  animation: QSfadeIn 0.15s;
+
+  @keyframes QSfadeIn {
+    from {
+      opacity: 0.5;
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
+
+  > .qs-action-icon {
+    margin-right: calc(var(--qs-spacing) / 2);
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 150%;
+    margin-left: -4px;
+    transition: 0s linear;
+  }
+
+  > p {
+    flex: 1;
+    margin: 0;
+  }
+
+  > .qs-action-tags {
+    display: flex;
+    gap: calc(var(--qs-spacing) / 2);
+    font-weight: 600;
+
+    > * {
+      font-size: 80%;
+      background-color: rgba(255, 255, 255, 0.1);
+      padding: 2px 6px;
+      border-radius: var(--qs-radius);
+    }
+  }
+
+  &.is-selected,
+  &:hover,
+  &:focus {
+    color: var(--qs-action-active-color);
+    background-color: var(--qs-action-active-background);
+
+    > .qs-action-icon {
+      color: var(--qs-action-active-color);
+    }
+
+    > .qs-action-tags > span {
+      background-color: rgba(0, 0, 0, 0.1);
     }
   }
 }

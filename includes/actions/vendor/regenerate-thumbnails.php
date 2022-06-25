@@ -4,7 +4,7 @@
 // -------------------------------------------- //
 add_filter("qs_actions", "qs_regenerate_thumbnails", 1, 1);
 function qs_regenerate_thumbnails($actions) {
-  $actions[] = [
+  $actions["regenerate_thumbnails"] = [
     "label" => __("Regenerate thumbnails", "quicksearch"),
     "icon" => "dashicons-admin-tools",
     "tags" => ["Regenerate thumbnails"],

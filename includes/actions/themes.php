@@ -6,7 +6,7 @@
 add_filter("qs_actions", "qs_default_theme_links", 1, 1);
 function qs_default_theme_links($actions) {
 
-  $actions[] = [
+  $actions["theme_upload"] = [
     "label" => __("Upload theme", "quicksearch"),
     "icon" => "dashicons-plus",
     "tags" => ["upload theme", "new theme", "create theme"],
@@ -14,7 +14,7 @@ function qs_default_theme_links($actions) {
     "url" => admin_url() . "theme-install.php",
   ];
 
-  $actions[] = [
+  $actions["theme_all"] = [
     "label" => __("All themes", "quicksearch"),
     "icon" => "dashicons-admin-appearance",
     "tags" => ["all themes", "archive themes", "change theme"],
@@ -22,7 +22,7 @@ function qs_default_theme_links($actions) {
     "url" => admin_url() . "themes.php",
   ];
 
-  $actions[] = [
+  $actions["theme_edit"] = [
     "label" => __("Edit theme", "quicksearch"),
     "icon" => "dashicons-admin-appearance",
     "tags" => ["edit theme"],
@@ -30,7 +30,7 @@ function qs_default_theme_links($actions) {
     "url" => admin_url() . "theme-editor.php",
   ];
 
-  $actions[] = [
+  $actions["theme_customizer"] = [
     "label" => __("Customizer", "quicksearch"),
     "icon" => "dashicons-admin-appearance",
     "tags" => ["customize"],

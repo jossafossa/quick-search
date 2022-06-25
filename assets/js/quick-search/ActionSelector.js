@@ -71,7 +71,7 @@ export default class ActionSelector {
 			this.root.appendChild(element);
 			this.actions.push(element);
 			
-			element.addEventListener("mousedown", e => {
+			element.addEventListener("click", e => {
 				this.actionClickEvent(index);
 			})
 		}

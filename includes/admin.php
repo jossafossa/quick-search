@@ -26,12 +26,22 @@ add_action('admin_enqueue_scripts', function () {
     ]
   );
 
+  // get actions
   $actions = apply_filters("qs_actions", []);
+  
+  // filter out disabled actions
+  $disabled_actions = qs_get_option("disabled_actions");
+  foreach($disabled_actions as $disabled_action) {
+    unset($actions[$disabled_action]);
+  }
+
   wp_localize_script(
     'qs-scripts',
     'qsActions',
     $actions
   );
+
+
 });
 
 

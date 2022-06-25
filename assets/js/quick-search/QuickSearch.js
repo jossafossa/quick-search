@@ -17,7 +17,7 @@ export default class QuickSearch {
 
 
     // actions
-		this.options = options;
+		this.options = Object.values(options); // hack
 		for (let [index, option] of Object.entries(options)) {
 			option.id = index;
 		}
