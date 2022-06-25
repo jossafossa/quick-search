@@ -19,3 +19,4 @@ include_once QS_PLUGIN_PATH . "/includes/filters.php";
 include_once QS_PLUGIN_PATH . "/includes/ajax.php";
 include_once QS_PLUGIN_PATH . "/includes/actions/_autoload.php";
 include_once QS_PLUGIN_PATH . "/includes/settings.php";
+

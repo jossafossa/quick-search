@@ -19,11 +19,11 @@ export default class InputListener {
 				}
 			}
 			if (e.key === "Tab") {
-				e.preventDefault();
+				// e.preventDefault();
 			}
 		});
 		this.input.addEventListener("blur", e => {
-			this.blurEvent();
+			// this.blurEvent();
 		});
 	}
 	

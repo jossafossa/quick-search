@@ -1,8 +1,20 @@
-<div class="qs-action-popup">
+<div class="qs-action-popup is-active">
   <div class="qs-action-popup-inner">
-    <input type="text" class="qs-search-term" placeholder="Search for pages, settings etc.">
+    <div class="qs-input-container">
+      <input type="text" class="qs-search-term" placeholder="Search for pages, settings etc.">
+        <a href="<?= qs_get_settings_url(); ?>">
+          <span class="dashicons dashicons-admin-generic"></span>
+        </a>
+    </div>
 
-    <div class="qs-actions"></div>
+    <h2 class="qs-hidden qs-visible" data-qs-history-title><?= __('Action History', 'quicksearch'); ?></h2>
+    <h2 class="qs-hidden" data-qs-search-title><?= __('Search Results', 'quicksearch'); ?></h2>
+    <span class="qs-hidden qs-action" data-qs-search-none tabindex="0">
+      <p><?= __('No actions found', 'quicksearch'); ?></p>
+    </span>
+    <div class="qs-actions">
+      
+    </div>
   </div>
 </div>
 

@@ -44,13 +44,18 @@ export default class QuickSearch {
 		this.actionHistory = new ActionHistory(this.notifications);
 
 
+		// labels
+		const historyTitle = popup.querySelector("[data-qs-history-title]");
+		const searchTitle = popup.querySelector("[data-qs-search-title]");
+		const noneNotice = popup.querySelector("[data-qs-search-none]");
+
+
 		
 
 
 
 		// format actions
 		this.actionResults = this.actionHistory.get();
-		console.log(this.actionResults);
 
 
 		// setup listeners
@@ -61,10 +66,26 @@ export default class QuickSearch {
 				// search
 				this.actionResults = searcher.search(value);
 				this.actionSelector.loadActions(this.actionResults);
+
+				// update labels
+				historyTitle.classList.remove("qs-visible");
+				searchTitle.classList.add("qs-visible");
+				if (this.actionResults.length === 0) {
+					noneNotice.classList.add("qs-visible");
+				} else {
+					noneNotice.classList.remove("qs-visible");
+				}
+
 			} else {
 				// load all
 				this.actionResults = this.actionHistory.get();
 				this.actionSelector.loadActions(this.actionResults);
+
+				// update labels
+				historyTitle.classList.add("qs-visible");
+				searchTitle.classList.remove("qs-visible");
+				noneNotice.classList.remove("qs-visible");
+
 			}
 		})
 
@@ -98,7 +119,9 @@ export default class QuickSearch {
 		}
 		
 		// hide popup
-		inputListener.on("Escape", () => this.actionPopup.hide());
+		document.addEventListener("keydown", e => {
+			if (e.key === "Escape") this.actionPopup.hide();
+		});
 		inputListener.onBlur(() => this.actionPopup.hide())
 
 
