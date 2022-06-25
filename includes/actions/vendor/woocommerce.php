@@ -2,8 +2,8 @@
 // -------------------------------------------- //
 // Woocommerce
 // -------------------------------------------- //
-add_filter("qs_actions", "qs_regenerate_thumbnails", 1, 1);
-function qs_regenerate_thumbnails($actions) {
+add_filter("qs_actions", "qs_woocommerce", 1, 1);
+function qs_woocommerce($actions) {
 
   // admin
   $actions["wc_admin"] = [
