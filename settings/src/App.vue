@@ -128,7 +128,7 @@ const enableAction = (index) => {
 </script>
 
 <style lang="scss">
-:root {
+#app {
   --qs-background: #1d2327;
   --qs-foreground: #2c3337;
   --qs-highlight: #3f484e;
