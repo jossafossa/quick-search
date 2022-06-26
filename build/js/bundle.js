@@ -860,11 +860,12 @@ var QuickSearch = /*#__PURE__*/function () {
     key: "executeAtIndex",
     value: function executeAtIndex(index) {
       if (index < this.actionResults.length) {
-        var id = this.indexToId(index);
+        var id = this.actionResults[index].id;
+        var action = this.actions[id];
         console.log(this.actionResults, index);
-        this.actionResults[index].execute();
+        action.execute();
         this.actionPopup.hide();
-        this.actionHistory.push(this.actionResults[index]);
+        this.actionHistory.push(action);
         this.actionResults = this.actionHistory.get();
         this.actionSelector.loadActions(this.actionResults);
       } else {

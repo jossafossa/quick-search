@@ -16,7 +16,7 @@ function qs_wpforms_lite($actions) {
 
   // new form
   $actions["wpforms_new"] = [
-    "label" => __("New form", "quicksearch"),
+    "label" => __("Create form", "quicksearch"),
     "icon" => "dashicons-admin-tools",
     "tags" => qs_tags("create", "wpforms"),
     "type" => "url",
