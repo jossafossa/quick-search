@@ -4,12 +4,12 @@
 // -------------------------------------------- //
 add_filter("qs_actions", "qs_elementor", 1, 1);
 function qs_elementor($actions) {
-  
+
   // settings
   $actions["elementor_settings"] = [
     "label" => __("Elementor settings", "quicksearch"),
     "icon" => "dashicons-admin-tools",
-    "tags" => ["settings", "elementor"],
+    "tags" => qs_tags("settings", "elementor"),
     "type" => "url",
     "url" => admin_url() . "admin.php?page=elementor#tab-general",
   ];
@@ -18,16 +18,16 @@ function qs_elementor($actions) {
   $actions["elementor_roles"] = [
     "label" => __("Elementor role manager", "quicksearch"),
     "icon" => "dashicons-admin-tools",
-    "tags" => ["role manager", "elementor"],
+    "tags" => qs_tags("roles", "elementor"),
     "type" => "url",
     "url" => admin_url() . "admin.php?page=elementor-role-manager",
   ];
-  
+
   // tools
   $actions["elementor_tools"] = [
     "label" => __("Elementor tools", "quicksearch"),
     "icon" => "dashicons-admin-tools",
-    "tags" => ["tools", "elementor"],
+    "tags" => qs_tags("tools", "elementor"),
     "type" => "url",
     "url" => admin_url() . "admin.php?page=elementor-tools",
   ];
@@ -36,7 +36,7 @@ function qs_elementor($actions) {
   $actions["elementor_system_info"] = [
     "label" => __("Elementor system info", "quicksearch"),
     "icon" => "dashicons-admin-tools",
-    "tags" => ["system info", "elementor"],
+    "tags" => qs_tags("elementor"),
     "type" => "url",
     "url" => admin_url() . "admin.php?page=elementor-system-info",
   ];
@@ -45,16 +45,16 @@ function qs_elementor($actions) {
   $actions["elementor_form_getting_started"] = [
     "label" => __("Elementor getting started", "quicksearch"),
     "icon" => "dashicons-admin-tools",
-    "tags" => ["getting started", "form entries", "elementor"],
+    "tags" => qs_tags("elementor"),
     "type" => "url",
     "url" => admin_url() . "admin.php?page=elementor-getting-started",
   ];
-  
+
   // form submissions
   $actions["elementor_form_submissions"] = [
     "label" => __("Elementor form submissions", "quicksearch"),
     "icon" => "dashicons-admin-tools",
-    "tags" => ["form submissions", "form entries", "elementor"],
+    "tags" => qs_tags("submissions", "elementor"),
     "type" => "url",
     "url" => admin_url() . "admin.php?page=e-form-submissions",
   ];
@@ -63,7 +63,7 @@ function qs_elementor($actions) {
   $actions["elementor_custom_fonts"] = [
     "label" => __("Elementor custom fonts", "quicksearch"),
     "icon" => "dashicons-admin-tools",
-    "tags" => ["custom fonts", "elementor"],
+    "tags" => qs_tags("fonts", "elementor"),
     "type" => "url",
     "url" => admin_url() . "admin.php?page=elementor_custom_fonts",
   ];
@@ -72,7 +72,7 @@ function qs_elementor($actions) {
   $actions["elementor_custom_icons"] = [
     "label" => __("Elementor custom icons", "quicksearch"),
     "icon" => "dashicons-admin-tools",
-    "tags" => ["custom code", "elementor"],
+    "tags" => qs_tags("icons", "elementor"),
     "type" => "url",
     "url" => admin_url() . "admin.php?page=elementor_custom_icons",
   ];
@@ -81,7 +81,7 @@ function qs_elementor($actions) {
   $actions["elementor_custom_code"] = [
     "label" => __("Elementor custom code", "quicksearch"),
     "icon" => "dashicons-admin-tools",
-    "tags" => ["custom code", "elementor"],
+    "tags" => qs_tags("code", "elementor"),
     "type" => "url",
     "url" => admin_url() . "admin.php?page=elementor_custom_custom_code",
   ];
@@ -90,7 +90,7 @@ function qs_elementor($actions) {
   $actions["elementor_theme_builder"] = [
     "label" => __("Elementor theme builder", "quicksearch"),
     "icon" => "dashicons-admin-tools",
-    "tags" => ["theme builder", "elementor"],
+    "tags" => qs_tags("elementor"),
     "type" => "url",
     "url" => admin_url() . "admin.php?page=elementor-app",
   ];
@@ -99,12 +99,12 @@ function qs_elementor($actions) {
   $actions["elementor_theme_builder"] = [
     "label" => __("Elementor popups", "quicksearch"),
     "icon" => "dashicons-admin-tools",
-    "tags" => ["popups", "elementor"],
+    "tags" => qs_tags("elementor"),
     "type" => "url",
     "url" => admin_url() . "edit.php?post_type=elementor_library&page=popup_templates",
   ];
 
-  
+
   // template tax
   $actions = array_merge($actions, qs_get_taxonomy_actions("elementor_library_category"));
 

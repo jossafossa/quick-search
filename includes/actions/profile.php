@@ -8,7 +8,7 @@ function qs_default_profile_actions($actions) {
   $actions["profile_view"] = [
     "label" => __("Edit my profile", "quicksearch"),
     "icon" => "dashicons-admin-users",
-    "tags" => ["edit my profile", "my profile", "profile"],
+    "tags" => qs_tags("edit", "profile"),
     "type" => "url",
     "url" => admin_url() . "profile.php",
   ];
@@ -17,7 +17,7 @@ function qs_default_profile_actions($actions) {
 
   $actions["profile_logout"] = [
     "label" => __("Logout", "quicksearch"),
-    "tags" => ["logout", "quit", "profile"],
+    "tags" => qs_tags("logout", "profile"),
     "icon" => "dashicons-exit",
     "type" => "url",
     "url" =>  $logout_url

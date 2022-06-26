@@ -32,10 +32,12 @@ export default class QuickSearch {
 		this.notifications = new NotificationDisplay();
 		let actionFormatter = new ActionFormatter(this.notifications);
 		
-		this.actions = actionFormatter.format(this.options);  
+		
+		this.actions = actionFormatter.format(options);  
     
+		console.log(this.actions);
     
-		let searcher = new Searcher([...this.options], [...this.actions]);
+		let searcher = new Searcher([...this.options], this.actions);
     
 		let input = document.querySelector(".qs-search-term");
 		let inputListener = new InputListener(input);
@@ -50,6 +52,7 @@ export default class QuickSearch {
 
 		// labels
 		const historyTitle = popup.querySelector("[data-qs-history-title]");
+		const clearHistory = popup.querySelector("[data-qs-clear-history]");
 		const searchTitle = popup.querySelector("[data-qs-search-title]");
 		const noneNotice = popup.querySelector("[data-qs-search-none]");
 
@@ -129,6 +132,11 @@ export default class QuickSearch {
 		inputListener.onBlur(() => this.actionPopup.hide())
 
 
+		// clear history
+		clearHistory.addEventListener("click", e => {
+			this.actionHistory.clearHistory();
+			this.actionSelector.loadActions([]);
+		});
 
 	}
 	
@@ -141,7 +149,7 @@ export default class QuickSearch {
 		if (index < this.actionResults.length) {
 			let id = this.indexToId(index);
 			
-			console.log(this.options, id, index);
+			console.log(this.actionResults, index);
 			this.actionResults[index].execute();
 			this.actionPopup.hide();
 			this.actionHistory.push(this.actionResults[index]);

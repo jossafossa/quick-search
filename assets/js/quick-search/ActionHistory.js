@@ -35,4 +35,8 @@ export default class ActionHistory {
 		// console.log("items after", [...items], action);
 		this.set(items);
 	}
+
+	clearHistory() {
+		this.set([]);
+	}
 }

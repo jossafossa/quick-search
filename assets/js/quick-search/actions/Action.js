@@ -17,7 +17,7 @@ export default class Action {
 		this.id = settings.id;
 		this.icon = settings.icon;
 		this.tags = settings.tags;
-		// this.keywords = [this.label, ...this.tags].join(" ");
+		this.keywords = [this.label, ...this.tags].join(" ");
 	}
 		
 	execute() {

@@ -82,7 +82,7 @@ var ActionFormatter = /*#__PURE__*/function () {
   _createClass(ActionFormatter, [{
     key: "format",
     value: function format(actions) {
-      var formatted = [];
+      var formatted = {};
 
       for (var _i = 0, _Object$entries = Object.entries(actions); _i < _Object$entries.length; _i++) {
         var _Object$entries$_i = _slicedToArray(_Object$entries[_i], 2),
@@ -92,8 +92,8 @@ var ActionFormatter = /*#__PURE__*/function () {
         var formattedAction = _objectSpread({}, action);
 
         formattedAction.notifications = this.notifications;
-        if (action.type === "url") formatted.push(new _actions_UrlAction_js__WEBPACK_IMPORTED_MODULE_0__["default"](formattedAction));
-        if (action.type === "ajax") formatted.push(new _actions_AjaxAction_js__WEBPACK_IMPORTED_MODULE_1__["default"](formattedAction));
+        if (action.type === "url") formatted[index] = new _actions_UrlAction_js__WEBPACK_IMPORTED_MODULE_0__["default"](formattedAction);
+        if (action.type === "ajax") formatted[index] = new _actions_AjaxAction_js__WEBPACK_IMPORTED_MODULE_1__["default"](formattedAction);
       }
 
       return formatted;
@@ -181,6 +181,11 @@ var ActionHistory = /*#__PURE__*/function () {
 
 
       this.set(items);
+    }
+  }, {
+    key: "clearHistory",
+    value: function clearHistory() {
+      this.set([]);
     }
   }]);
 
@@ -738,8 +743,9 @@ var QuickSearch = /*#__PURE__*/function () {
 
     this.notifications = new _NotificationDisplay_js__WEBPACK_IMPORTED_MODULE_0__["default"]();
     var actionFormatter = new _ActionFormatter_js__WEBPACK_IMPORTED_MODULE_1__["default"](this.notifications);
-    this.actions = actionFormatter.format(this.options);
-    var searcher = new _Searcher_js__WEBPACK_IMPORTED_MODULE_2__["default"](_toConsumableArray(this.options), _toConsumableArray(this.actions));
+    this.actions = actionFormatter.format(options);
+    console.log(this.actions);
+    var searcher = new _Searcher_js__WEBPACK_IMPORTED_MODULE_2__["default"](_toConsumableArray(this.options), this.actions);
     var input = document.querySelector(".qs-search-term");
     var inputListener = new _InputListener_js__WEBPACK_IMPORTED_MODULE_3__["default"](input);
     this.actionSelector = new _ActionSelector_js__WEBPACK_IMPORTED_MODULE_4__["default"]();
@@ -748,6 +754,7 @@ var QuickSearch = /*#__PURE__*/function () {
     this.actionHistory = new _ActionHistory_js__WEBPACK_IMPORTED_MODULE_6__["default"](this.notifications); // labels
 
     var historyTitle = popup.querySelector("[data-qs-history-title]");
+    var clearHistory = popup.querySelector("[data-qs-clear-history]");
     var searchTitle = popup.querySelector("[data-qs-search-title]");
     var noneNotice = popup.querySelector("[data-qs-search-none]"); // format actions
 
@@ -832,6 +839,12 @@ var QuickSearch = /*#__PURE__*/function () {
     });
     inputListener.onBlur(function () {
       return _this.actionPopup.hide();
+    }); // clear history
+
+    clearHistory.addEventListener("click", function (e) {
+      _this.actionHistory.clearHistory();
+
+      _this.actionSelector.loadActions([]);
     });
   }
 
@@ -848,7 +861,7 @@ var QuickSearch = /*#__PURE__*/function () {
     value: function executeAtIndex(index) {
       if (index < this.actionResults.length) {
         var id = this.indexToId(index);
-        console.log(this.options, id, index);
+        console.log(this.actionResults, index);
         this.actionResults[index].execute();
         this.actionPopup.hide();
         this.actionHistory.push(this.actionResults[index]);
@@ -882,14 +895,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var fuzzysort__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(fuzzysort__WEBPACK_IMPORTED_MODULE_0__);
 function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e2) { throw _e2; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e3) { didErr = true; err = _e3; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
 
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
-
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -919,7 +924,8 @@ var Searcher = /*#__PURE__*/function () {
     _classCallCheck(this, Searcher);
 
     this.options = options;
-    this.actions = actions; // let fuseSettings = {
+    this.actions = actions;
+    console.log(this.options, this.actions); // let fuseSettings = {
     // 	keys: [
     // 		"keywords",
     // 	],
@@ -931,23 +937,22 @@ var Searcher = /*#__PURE__*/function () {
     // };
     // merge actions into options
 
-    this.optionsCopy = JSON.parse(JSON.stringify(options));
+    this.optionsCopy = JSON.parse(JSON.stringify(this.options));
 
     for (var _i = 0, _Object$entries = Object.entries(options); _i < _Object$entries.length; _i++) {
       var _Object$entries$_i = _slicedToArray(_Object$entries[_i], 2),
           index = _Object$entries$_i[0],
           option = _Object$entries$_i[1];
 
-      this.optionsCopy[index].action = actions[index];
-    } // this.fuse = new Fuse(optionsCopy, fuseSettings);
+      this.optionsCopy[index].action = actions[option.id];
+    }
 
+    console.log(this.optionsCopy); // this.fuse = new Fuse(optionsCopy, fuseSettings);
   }
 
   _createClass(Searcher, [{
     key: "search",
     value: function search(query) {
-      var _console;
-
       // flags
       if (this.isFlag(query, "all")) return this.getAll();
       var formatted = []; // let results = this.fuse.search(query);
@@ -958,24 +963,22 @@ var Searcher = /*#__PURE__*/function () {
         limit: 30
       });
 
-      (_console = console).log.apply(_console, [query].concat(_toConsumableArray(results)));
-
       var _iterator = _createForOfIteratorHelper(results),
           _step;
 
       try {
         for (_iterator.s(); !(_step = _iterator.n()).done;) {
           var result = _step.value;
-          var action = JSON.parse(JSON.stringify(result.obj)); // ugly
+          var action = result.obj.action; // ugly
 
           console.log(action); // let label = action.label + ".";
           // highlight
 
-          var label = this.highlight(query, action.label);
+          var label = this.highlight(query, result.obj.label);
           if (label) action.label = label;
           var tags = [];
 
-          var _iterator2 = _createForOfIteratorHelper(action.tags),
+          var _iterator2 = _createForOfIteratorHelper(result.obj.tags),
               _step2;
 
           try {
@@ -1000,6 +1003,8 @@ var Searcher = /*#__PURE__*/function () {
         _iterator.f();
       }
 
+      console.log(this.actions);
+      console.log(formatted);
       return formatted;
     }
   }, {
@@ -1057,6 +1062,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": function() { return /* binding */ Action; }
 /* harmony export */ });
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -1081,7 +1098,8 @@ var Action = /*#__PURE__*/function () {
     this.notifications = settings.notifications;
     this.id = settings.id;
     this.icon = settings.icon;
-    this.tags = settings.tags; // this.keywords = [this.label, ...this.tags].join(" ");
+    this.tags = settings.tags;
+    this.keywords = [this.label].concat(_toConsumableArray(this.tags)).join(" ");
   }
 
   _createClass(Action, [{

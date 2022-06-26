@@ -6,6 +6,8 @@ export default class Searcher {
 	constructor(options = [], actions = []) {
 		this.options = options;
 		this.actions = actions;
+
+		console.log(this.options, this.actions);
 		
 		// let fuseSettings = {
 		// 	keys: [
@@ -20,11 +22,12 @@ export default class Searcher {
 		
 		// merge actions into options
     
-    this.optionsCopy = JSON.parse(JSON.stringify(options));
+    this.optionsCopy = JSON.parse(JSON.stringify(this.options));
 
 		for (let [index, option] of Object.entries(options)) {
-			this.optionsCopy[index].action = actions[index];
+			this.optionsCopy[index].action = actions[option.id];
 		}
+		console.log(this.optionsCopy);
 		
 		// this.fuse = new Fuse(optionsCopy, fuseSettings);
 		
@@ -42,19 +45,18 @@ export default class Searcher {
 			threshold: -1000,
 			limit: 30,
 		})
-		console.log(query, ...results);
 		for (let result of results) {
-			let action = JSON.parse(JSON.stringify(result.obj)); // ugly
+			let action = result.obj.action; // ugly
 			console.log(action);
 
 			// let label = action.label + ".";
 
 			// highlight
-			const label = this.highlight(query, action.label);
+			const label = this.highlight(query, result.obj.label);
 			if (label) action.label = label;
 
 			let tags = [];
-			for(let tag of action.tags) {
+			for(let tag of result.obj.tags) {
 				const higlighted =this.highlight(query, tag);
 				tags.push(higlighted ? higlighted : tag);
 			}
@@ -64,6 +66,9 @@ export default class Searcher {
 			formatted.push(action);
 			
 		}
+
+		console.log(this.actions);
+		console.log(formatted);
 		return formatted;
 	}
 

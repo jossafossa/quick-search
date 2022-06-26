@@ -8,7 +8,7 @@ function qs_default_comments_links($actions) {
   $actions["comments"] = [
     "label" => __("All comments", "quicksearch"),
     "icon" => "dashicons-admin-comments",
-    "tags" => ["all comments", "archive comments", "comments"],
+    "tags" => qs_tags("all", "comments"),
     "type" => "url",
     "url" => admin_url() . "edit-comments.php",
   ];

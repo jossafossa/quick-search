@@ -9,7 +9,7 @@ function qs_default_dashboard_links($actions) {
   $actions["dashboard"] = [
     "label" => __("Wordpress dashboard", "quicksearch"),
     "icon" => "dashicons-dashboard",
-    "tags" => ["wordpress dashboard", "home", "homepage", "dashboard"],
+    "tags" => qs_tags("home", "dashboard"),
     "type" => "url",
     "url" => admin_url() . "index.php",
   ];
@@ -17,7 +17,7 @@ function qs_default_dashboard_links($actions) {
   $actions["dashboard_updates"] = [
     "label" => __("Wordpress updates", "quicksearch"),
     "icon" => "dashicons-dashboard",
-    "tags" => ["wordpress updates", "dashboard"],
+    "tags" => qs_tags("updates", "dashboard"),
     "type" => "url",
     "url" => admin_url() . "update-core.php",
   ];

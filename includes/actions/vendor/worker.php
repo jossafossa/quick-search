@@ -7,7 +7,7 @@ function qs_managewp($actions) {
   $actions["managewp_get_connection_key"] = [
     "label" => __("ManageWP get connection key", "quicksearch"),
     "icon" => "dashicons-admin-tools",
-    "tags" => ["ManageWP get connection key", "managewp"],
+    "tags" => qs_tags("ManageWP get connection key", "managewp"),
     "type" => "ajax",
     "action" => "qs_managewp_get_connection_key",
   ];

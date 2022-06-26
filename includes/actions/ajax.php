@@ -8,14 +8,14 @@ function qs_default_ajax_actions($actions) {
   $actions["ajax_save_permalinks"] = [
     "label" => __("save permalinks", "quicksearch"),
     "icon" => "dashicons-controls-play",
-    "tags" => ["save permalinks", "flush permalinks", "clear permalinks", "ajax"],
+    "tags" => qs_tags("flush", "ajax"),
     "type" => "ajax",
     "action" => "qs_flush_permalinks",
   ];
   $actions["ajax_log_users"] = [
     "label" => __("log current users", "quicksearch"),
     "icon" => "dashicons-controls-play",
-    "tags" => ["log current users", "log active users", "ajax"],
+    "tags" => qs_tags("log", "ajax"),
     "type" => "ajax",
     "action" => "qs_log_users",
   ];

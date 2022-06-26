@@ -5,79 +5,79 @@
 add_filter("qs_actions", "qs_gravity_forms", 1, 1);
 function qs_gravity_forms($actions) {
   $actions["gf_all"] = [
-    "label" => __("Gravityforms", "quicksearch"),
+    "label" => __("forms", "quicksearch"),
     "icon" => "dashicons-admin-tools",
-    "tags" => ["forms", "all forms", "gravityforms"],
+    "tags" => qs_tags("archive", "gravityforms"),
     "type" => "url",
     "url" => admin_url() . "admin.php?page=gf_edit_forms",
   ];
   $actions["gf_new"] = [
-    "label" => __("New Gravityform", "quicksearch"),
+    "label" => __("New form", "quicksearch"),
     "icon" => "dashicons-admin-tools",
-    "tags" => ["new form", "create form", "gravityforms"],
+    "tags" => qs_tags("create", "gravityforms"),
     "type" => "url",
     "url" => admin_url() . "admin.php?page=gf_new_form",
   ];
   $actions["gf_entries"] = [
-    "label" => __("Gravityform entries", "quicksearch"),
+    "label" => __("form entries", "quicksearch"),
     "icon" => "dashicons-admin-tools",
-    "tags" => ["form entries", "gravityforms"],
+    "tags" => qs_tags("entries", "gravityforms"),
     "type" => "url",
     "url" => admin_url() . "admin.php?page=gf_entries",
   ];
   $actions["gf_settings"] = [
     "label" => __("Gravityform settings", "quicksearch"),
     "icon" => "dashicons-admin-tools",
-    "tags" => ["form settings", "form preferences", "gravityforms"],
+    "tags" => qs_tags("settings", "gravityforms"),
     "type" => "url",
     "url" => admin_url() . "admin.php?page=gf_settings",
   ];
   $actions["gf_tools_export_entries"] = [
-    "label" => __("Export Gravityform entries", "quicksearch"),
+    "label" => __("Export form entries", "quicksearch"),
     "icon" => "dashicons-admin-tools",
-    "tags" => ["export form entries", "gravityforms"],
+    "tags" => qs_tags("export", 'entries', "gravityforms"),
     "type" => "url",
     "url" => admin_url() . "admin.php?page=gf_export",
   ];
   $actions["gf_tools_export_forms"] = [
-    "label" => __("Export Gravityform", "quicksearch"),
+    "label" => __("Export form", "quicksearch"),
     "icon" => "dashicons-admin-tools",
-    "tags" => ["export form", "gravityforms"],
+    "tags" => qs_tags("export",  "gravityforms"),
     "type" => "url",
     "url" => admin_url() . "admin.php?page=gf_export&subview=export_form",
   ];
   $actions["gf_tools_import_form"] = [
-    "label" => __("Import Gravityform", "quicksearch"),
+    "label" => __("Import form", "quicksearch"),
     "icon" => "dashicons-admin-tools",
-    "tags" => ["import form", "gravityforms"],
+    "tags" => qs_tags("import", "gravityforms"),
     "type" => "url",
     "url" => admin_url() . "admin.php?page=gf_export&subview=import_form",
   ];
   $actions["gf_addons"] = [
-    "label" => __("Gravityforms addons", "quicksearch"),
+    "label" => __("form addons", "quicksearch"),
     "icon" => "dashicons-admin-tools",
-    "tags" => ["form addons", "gravityforms"],
+    "tags" => qs_tags("addons", "gravityforms"),
     "type" => "url",
     "url" => admin_url() . "admin.php?page=gf_export&subview=gf_addons",
   ];
   $actions["gf_system_report"] = [
-    "label" => __("Gravityforms system report", "quicksearch"),
+    "label" => __("form system report", "quicksearch"),
     "icon" => "dashicons-admin-tools",
-    "tags" => ["form system report", "gravityforms"],
+    "tags" => qs_tags("report", "gravityforms"),
     "type" => "url",
     "url" => admin_url() . "admin.php?page=gf_system_status&subview=report",
   ];
   $actions["gf_updates"] = [
-    "label" => __("Gravityforms updates", "quicksearch"),
+    "label" => __("form updates", "quicksearch"),
     "icon" => "dashicons-admin-tools",
-    "tags" => ["form updates", "gravityforms"],
+    "tags" => qs_tags("updates", "gravityforms"),
     "type" => "url",
     "url" => admin_url() . "admin.php?page=gf_system_status&subview=updates",
   ];
   $actions["gf_help"] = [
-    "label" => __("Gravityforms help", "quicksearch"),
+    "label" => __("Form help", "quicksearch"),
     "icon" => "dashicons-admin-tools",
-    "tags" => ["form help", "gravityforms"],
+    "tags" => qs_tags("help", "gravityforms"),
     "type" => "url",
     "url" => admin_url() . "admin.php?page=gf_help",
   ];

@@ -382,6 +382,7 @@ body .qs-action {
       -ms-user-select: none;
           user-select: none;
   cursor: pointer;
+  gap: calc(var(--qs-spacing) / 2);
   -webkit-animation: QSfadeIn 0.15s;
           animation: QSfadeIn 0.15s;
 }
@@ -411,21 +412,26 @@ body .qs-action > .qs-action-icon {
 }
 body .qs-action > p {
   -webkit-box-flex: 1;
-      -ms-flex: 1;
-          flex: 1;
+      -ms-flex: 1 0 auto;
+          flex: 1 0 auto;
   margin: 0;
 }
 body .qs-action > .qs-action-tags {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  gap: calc(var(--qs-spacing) / 2);
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  gap: calc(var(--qs-spacing) / 4);
   font-weight: 600;
 }
 body .qs-action > .qs-action-tags > * {
-  font-size: 80%;
+  font-size: 75%;
   background-color: rgba(255, 255, 255, 0.1);
-  padding: 2px 6px;
+  padding: 0px 4px;
   border-radius: var(--qs-radius);
 }
 body .qs-action.is-selected, body .qs-action:hover, body .qs-action:focus {
@@ -442,7 +448,7 @@ body .qs-action.is-selected > .qs-action-tags > span, body .qs-action:hover > .q
 .qs-highlight {
   background-color: white;
   color: black;
-  font-weight: 900;
+  font-weight: 700;
 }
 
 /*# sourceMappingURL=style.css.map*/

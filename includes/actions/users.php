@@ -8,7 +8,7 @@ function qs_default_users_links($actions) {
   $actions["all_users"] = [
     "label" => __("All users", "quicksearch"),
     "icon" => "dashicons-admin-users",
-    "tags" => ["all users", "archive users", "users"],
+    "tags" => qs_tags('archive', "users"),
     "type" => "url",
     "url" => admin_url() . "users.php",
   ];
@@ -16,7 +16,7 @@ function qs_default_users_links($actions) {
   $actions["create_user"] = [
     "label" => __("Create user", "quicksearch"),
     "icon" => "dashicons-admin-users",
-    "tags" => ["create user", "new user", "users"],
+    "tags" => qs_tags('create', "users"),
     "type" => "url",
     "url" => admin_url() . "user-new.php",
   ];
