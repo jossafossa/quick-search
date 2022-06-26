@@ -439,4 +439,10 @@ body .qs-action.is-selected > .qs-action-tags > span, body .qs-action:hover > .q
   background-color: rgba(0, 0, 0, 0.1);
 }
 
+.qs-highlight {
+  background-color: white;
+  color: black;
+  font-weight: 900;
+}
+
 /*# sourceMappingURL=style.css.map*/

@@ -23,29 +23,29 @@ function qs_get_option($key) {
 
 
 function qs_get_post_type_actions($post_type, $default_icon = "dashicons-admin-post", $tags = []) {
-  
+
   $post_type_obj = get_post_type_object($post_type);
   $labels = $post_type_obj->labels;
   $icon = $post_type_obj->menu_icon ?: $default_icon;
   $actions = [];
   $actions[sprintf("posttype_%s_create", $post_type)] = [
     "label" => sprintf(__("Create %s", "quicksearch"), $labels->singular_name),
-    "icon" =>  $icon ,
-    "tags" => ["new $labels->singular_name", "create $post_type", "$post_type", ...$tags],
+    "icon" =>  $icon,
+    "tags" => ["new", "create", "$post_type", ...$tags],
     "type" => "url",
     "url" => admin_url() . "post-new.php?post_type={$post_type}",
   ];
   $actions[sprintf("posttype_%s_all", $post_type)] = [
     "label" => sprintf(__("All %s", "quicksearch"), $labels->name),
-    "icon" =>  $icon ,
-    "tags" => ["archive $labels->singular_name", "all $post_type", "$post_type", ...$tags],
+    "icon" =>  $icon,
+    "tags" => ["archive", "$post_type", ...$tags],
     "type" => "url",
     "url" => admin_url() . "edit.php?post_type={$post_type}",
   ];
   $actions[sprintf("posttype_%s_thrash", $post_type)] = [
     "label" => sprintf(__("Trashed %s", "quicksearch"), $labels->name),
-    "icon" =>  $icon ,
-    "tags" => ["trashed $post_type", "removed $labels->name", ...$tags],
+    "icon" =>  $icon,
+    "tags" => ["trashed", "removed", "recycled",  "bin", "$post_type", ...$tags],
     "type" => "url",
     "url" => admin_url() . "edit.php?post_status=trash&post_type={$post_type}",
   ];

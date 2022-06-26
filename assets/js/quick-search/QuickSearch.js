@@ -21,6 +21,7 @@ export default class QuickSearch {
 		this.options = options; // hack
 		for (let [index, option] of Object.entries(options)) {
 			option.id = index;
+			option.keywords = [option.label, ...option.tags].join(" ");
 		}
 		this.options = Object.values(this.options);
 		console.log(this.options);

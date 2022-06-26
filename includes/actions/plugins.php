@@ -1,4 +1,4 @@
-<?php 
+<?php
 // -------------------------------------------- //
 // PLUGIN PAGES
 // -------------------------------------------- //
@@ -8,7 +8,7 @@ function qs_default_plugin_links($actions) {
   $actions["plugins_all"] = [
     "label" => __("All plugins", "quicksearch"),
     "icon" => "dashicons-screenoptions",
-    "tags" => ["all plugins", "archive plugins"],
+    "tags" => ["all plugins", "archive plugins", "plugins"],
     "type" => "url",
     "url" => admin_url() . "plugins.php",
   ];
@@ -16,7 +16,7 @@ function qs_default_plugin_links($actions) {
   $actions["plugins_new"] = [
     "label" => __("Upload plugin", "quicksearch"),
     "icon" => "dashicons-plus",
-    "tags" => ["upload plugin", "new plugin", "create plugin"],
+    "tags" => ["upload plugin", "new plugin", "create plugin", "plugins"],
     "type" => "url",
     "url" => admin_url() . "plugin-install.php",
   ];

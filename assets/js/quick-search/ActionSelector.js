@@ -16,7 +16,7 @@ export default class ActionSelector {
 		let imageTitle = element.querySelector(".qs-action-title");
 		let tagsElement = element.querySelector(".qs-action-tags");
 		
-		imageTitle.innerText = action.label;
+		imageTitle.innerHTML = action.label;
 		// console.log({action});
 		for (let tag of action.tags) {
 			tagsElement.innerHTML+= `<span>${tag}</span>`;
