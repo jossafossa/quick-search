@@ -24,16 +24,9 @@ function qs_default_add_post_types($actions) {
     'public'   => true,
   ]);
   foreach ($taxonomies as $tax) {
-    $tax_object = get_taxonomy($tax);
-    $icon = "dashicons-tag";
-    $actions[sprintf("taxonomy_%s_all", $tax)] = [
-      "label" => sprintf("All %s", $tax_object->labels->name),
-      "icon" =>  $icon ,
-      "tags" => [$tax],
-      "type" => "url",
-      "url" => admin_url() . "edit-tags.php?taxonomy={$tax}",
-    ];
+    $actions = array_merge($actions, qs_get_taxonomy_actions($tax));
   }
 
   return $actions;
 };
+

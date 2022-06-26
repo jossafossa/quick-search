@@ -1,7 +1,7 @@
 
 <template>
   <div class="qs-action">
-    <span class="qs-action-icon dashicons" :class="props.action.icon"></span>
+    <!-- <span class="qs-action-icon dashicons" :class="props.action.icon"></span> -->
     <p class="qs-action-title">{{props.action.label}}</p>
     <slot></slot>  
     <span class="qs-action-tags">
@@ -17,6 +17,7 @@
     action: Object,
     id: String
   })
+  console.log(props.action.value);
 
 </script>
 

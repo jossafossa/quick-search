@@ -22,17 +22,17 @@ export default class ActionHistory {
 
 	push(action) {
 		let items = this.getUnformatted();
-		// console.log("items before", [...items]);
-		if (items.length > 0) {
-			if (action.id === items[0].id)
-				return;
-		}
+		console.log({action});
+		// console.log("items before", [...items], action);
+		// console.log(action.id, items[0].id);
+		if (items.length > 0 && action.id === items[0].id) return;
 		items.unshift(action);
+		// console.log("items inbetween", [...items], action);
 
 		if (items.length > this.max) {
 			items.pop();
 		}
-		// console.log("items after", [...items]);
+		// console.log("items after", [...items], action);
 		this.set(items);
 	}
 }

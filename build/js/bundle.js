@@ -177,17 +177,18 @@ var ActionHistory = /*#__PURE__*/function () {
   }, {
     key: "push",
     value: function push(action) {
-      var items = this.getUnformatted(); // console.log("items before", [...items]);
+      var items = this.getUnformatted();
+      console.log({
+        action: action
+      }); // console.log("items before", [...items], action);
+      // console.log(action.id, items[0].id);
 
-      if (items.length > 0) {
-        if (action.id === items[0].id) return;
-      }
-
-      items.unshift(action);
+      if (items.length > 0 && action.id === items[0].id) return;
+      items.unshift(action); // console.log("items inbetween", [...items], action);
 
       if (items.length > this.max) {
         items.pop();
-      } // console.log("items after", [...items]);
+      } // console.log("items after", [...items], action);
 
 
       this.set(items);
@@ -308,10 +309,7 @@ var ActionSelector = /*#__PURE__*/function () {
       var iconElement = element.querySelector(".qs-action-icon");
       var imageTitle = element.querySelector(".qs-action-title");
       var tagsElement = element.querySelector(".qs-action-tags");
-      imageTitle.innerText = action.label;
-      console.log({
-        action: action
-      });
+      imageTitle.innerText = action.label; // console.log({action});
 
       var _iterator = _createForOfIteratorHelper(action.tags),
           _step;
@@ -733,8 +731,9 @@ var QuickSearch = /*#__PURE__*/function () {
       }
     }, settings);
     this.shortcutValidator = settings.shortcutValidator; // actions
+    // this.options = Object.values(options); // hack
 
-    this.options = Object.values(options); // hack
+    this.options = options; // hack
 
     for (var _i = 0, _Object$entries = Object.entries(options); _i < _Object$entries.length; _i++) {
       var _Object$entries$_i = _slicedToArray(_Object$entries[_i], 2),
@@ -742,8 +741,10 @@ var QuickSearch = /*#__PURE__*/function () {
           option = _Object$entries$_i[1];
 
       option.id = index;
-    } // setup
+    }
 
+    this.options = Object.values(this.options);
+    console.log(this.options); // setup
 
     this.notifications = new _NotificationDisplay_js__WEBPACK_IMPORTED_MODULE_0__["default"]();
     var actionFormatter = new _ActionFormatter_js__WEBPACK_IMPORTED_MODULE_1__["default"](this.notifications);
@@ -847,17 +848,20 @@ var QuickSearch = /*#__PURE__*/function () {
   _createClass(QuickSearch, [{
     key: "indexToId",
     value: function indexToId(index) {
-      return parseInt(this.actionResults[index].id);
+      console.log({
+        actionResults: this.actionResults
+      });
+      return this.actionResults[index].id;
     }
   }, {
     key: "executeAtIndex",
     value: function executeAtIndex(index) {
       if (index < this.actionResults.length) {
         var id = this.indexToId(index);
-        console.log(this.options);
+        console.log(this.options, id, index);
         this.actionResults[index].execute();
         this.actionPopup.hide();
-        this.actionHistory.push(this.options[id]);
+        this.actionHistory.push(this.actionResults[index]);
         this.actionResults = this.actionHistory.get();
         this.actionSelector.loadActions(this.actionResults);
       } else {
@@ -1496,9 +1500,14 @@ var UrlAction = /*#__PURE__*/function (_Action) {
   _createClass(UrlAction, [{
     key: "execute",
     value: function execute() {
-      console.log(this.url);
-      location.replace(this.url);
-      this.sendSuccessNotification("navigating to " + this.label);
+      console.log(location.href, this.url);
+
+      if (location.href !== this.url) {
+        location.replace(this.url);
+        this.sendSuccessNotification("navigating to " + this.label);
+      } else {
+        this.sendErrorNotification("already at " + this.url);
+      }
     }
   }]);
 

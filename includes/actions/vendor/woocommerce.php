@@ -132,7 +132,7 @@ function qs_woocommerce($actions) {
     "url" => admin_url() . "admin.php?page=wc-status&tab=action-scheduler",
   ];
 
-  
+  // addons
   $actions["wc_settings_addons"] = [
     "label" => __("Woocommerce addons", "quicksearch"),
     "icon" => "dashicons-admin-tools",
@@ -141,6 +141,15 @@ function qs_woocommerce($actions) {
     "url" => admin_url() . "admin.php?page=wc-addons",
   ];
 
+  // marketing
+  
+  $actions["wc_marketing"] = [
+    "label" => __("Woocommerce marketing", "quicksearch"),
+    "icon" => "dashicons-admin-tools",
+    "tags" => ["marketing", "woocommerce"],
+    "type" => "url",
+    "url" => admin_url() . "admin.php?page=wc-admin&path=%2Fmarketing",
+  ];
 
 
   return $actions;

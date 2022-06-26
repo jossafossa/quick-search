@@ -41,24 +41,24 @@
 
     <h2>Exclude specific actions</h2>
     <ExcludedActions>
-      <ActionList title="Enabled actions">
+      <ActionList title="Enabled actions" button="Enable all" @buttonClick="enableAll">
         <Action
-          v-for="(actionID, index) of enabledActions"
-          :key="index"
-          :action="actions[actionID]"
+          v-for="(action, actionID) of enabledActions"
+          :key="actionID"
+          :action="action"
           :id="actionID"
-          @click="disableAction(index)"
+          @click="disableAction(actionID)"
         >
         </Action>
       </ActionList>
 
-      <ActionList title="Disabled actions">
+      <ActionList title="Disabled actions" button="Disable all" @buttonClick="disableAll">
         <Action
-          v-for="(actionID, index) of disabledActions"
-          :key="index"
-          :action="actions[actionID]"
+          v-for="(action, actionID) of disabledActions"
+          :key="actionID"
+          :action="action"
           :id="actionID"
-          @click="enableAction(index)"
+          @click="enableAction(actionID)"
         >
         <input type="hidden" :name="disabledActionsName" :value="actionID">
         </Action>
@@ -95,8 +95,16 @@ const defaultShortcut = {
 onMounted(() => {
   shortcuts.value = window.qsCustomURLs;
   actions.value = window.qsAllActions;
-  enabledActions.value = window.qsEnabledActions;
-  disabledActions.value = window.qsDisabledActions;
+
+  const disabledEntries = Object.entries(window.qsAllActions).filter(([key]) => {
+    if (window.qsDisabledActions.includes(key)) return true;
+  })
+  disabledActions.value = Object.fromEntries(disabledEntries);
+  
+  const enabledEntries = Object.entries(window.qsAllActions).filter(([key]) => {
+    if (!window.qsDisabledActions.includes(key)) return true;
+  })
+  enabledActions.value = Object.fromEntries(enabledEntries);
 });
 
 // insert a new custom url at index
@@ -117,14 +125,27 @@ const removeURL = (id) => {
 };
 
 const disableAction = (index) => {
-  const action = enabledActions.value.splice(index, 1);
-  disabledActions.value.unshift(action[0]);
+  // const action = enabledActions.value.splice(index, 1);
+  // disabledActions.value.unshift(action[0]);
+  disabledActions.value[index] = enabledActions.value[index];
+  delete enabledActions.value[index];
 };
 
 const enableAction = (index) => {
-  const action = disabledActions.value.splice(index, 1);
-  enabledActions.value.unshift(action[0]);
+  // const action = disabledActions.value.splice(index, 1);
+  enabledActions.value[index] = disabledActions.value[index];
+  delete disabledActions.value[index];
 };
+
+const enableAll = () => {
+  enabledActions.value = actions.value;
+  disabledActions.value = []
+}
+
+const disableAll = () => {
+  disabledActions.value = actions.value;
+  enabledActions.value = []
+}
 </script>
 
 <style lang="scss">

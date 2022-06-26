@@ -17,10 +17,13 @@ export default class QuickSearch {
 
 
     // actions
-		this.options = Object.values(options); // hack
+		// this.options = Object.values(options); // hack
+		this.options = options; // hack
 		for (let [index, option] of Object.entries(options)) {
 			option.id = index;
 		}
+		this.options = Object.values(this.options);
+		console.log(this.options);
 
 
 
@@ -129,17 +132,18 @@ export default class QuickSearch {
 	}
 	
 	indexToId(index) {
-			return parseInt(this.actionResults[index].id);
+		console.log({actionResults: this.actionResults});
+		return this.actionResults[index].id;
 	}
 	
 	executeAtIndex(index) {
 		if (index < this.actionResults.length) {
 			let id = this.indexToId(index);
 			
-			console.log(this.options);
+			console.log(this.options, id, index);
 			this.actionResults[index].execute();
 			this.actionPopup.hide();
-			this.actionHistory.push(this.options[id]);
+			this.actionHistory.push(this.actionResults[index]);
 			this.actionResults = this.actionHistory.get();
 			this.actionSelector.loadActions(this.actionResults);
 		} else {

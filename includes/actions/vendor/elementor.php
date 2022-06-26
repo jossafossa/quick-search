@@ -85,5 +85,28 @@ function qs_elementor($actions) {
     "type" => "url",
     "url" => admin_url() . "admin.php?page=elementor_custom_custom_code",
   ];
+
+  // theme builder
+  $actions["elementor_theme_builder"] = [
+    "label" => __("Elementor theme builder", "quicksearch"),
+    "icon" => "dashicons-admin-tools",
+    "tags" => ["theme builder", "elementor"],
+    "type" => "url",
+    "url" => admin_url() . "admin.php?page=elementor-app",
+  ];
+
+  // popups
+  $actions["elementor_theme_builder"] = [
+    "label" => __("Elementor popups", "quicksearch"),
+    "icon" => "dashicons-admin-tools",
+    "tags" => ["popups", "elementor"],
+    "type" => "url",
+    "url" => admin_url() . "edit.php?post_type=elementor_library&page=popup_templates",
+  ];
+
+  
+  // template tax
+  $actions = array_merge($actions, qs_get_taxonomy_actions("elementor_library_category"));
+
   return $actions;
 };

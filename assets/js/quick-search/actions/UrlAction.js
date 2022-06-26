@@ -13,8 +13,12 @@ export default class UrlAction extends Action {
 	}
 	
 	execute() {
-		console.log(this.url);
-    location.replace(this.url);
-		this.sendSuccessNotification("navigating to " + this.label);
+		console.log(location.href, this.url);
+		if (location.href !== this.url) {
+			location.replace(this.url);
+			this.sendSuccessNotification("navigating to " + this.label);
+		} else {
+			this.sendErrorNotification("already at " + this.url);
+		}
 	}
 }
