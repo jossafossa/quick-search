@@ -147,12 +147,12 @@ export default class QuickSearch {
 	
 	executeAtIndex(index) {
 		if (index < this.actionResults.length) {
-			let id = this.indexToId(index);
-			
+			let id = this.actionResults[index].id;
+			let action = this.actions[id];
 			console.log(this.actionResults, index);
-			this.actionResults[index].execute();
+			action.execute();
 			this.actionPopup.hide();
-			this.actionHistory.push(this.actionResults[index]);
+			this.actionHistory.push(action);
 			this.actionResults = this.actionHistory.get();
 			this.actionSelector.loadActions(this.actionResults);
 		} else {

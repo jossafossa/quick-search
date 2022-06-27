@@ -79,13 +79,6 @@ function qs_options_page_html() {
     return;
   }
 
-  // MESSAGES
-  // if (isset($_GET['settings-updated'])) {
-  //   add_settings_error('qs_messages', 'qs_message', __('Settings Saved', 'quicksearch'), 'updated');
-  // }
-
-  // show error/update messages
-  // settings_errors('qs_messages');
 ?>
   <div class="wrap">
     <h1><?= esc_html(get_admin_page_title()); ?></h1>
@@ -120,7 +113,7 @@ function qs_options_page_html() {
 <?php
 }
 
-
+/*
 
 // -------------------------------------------- //
 // SETTINGS
@@ -155,15 +148,15 @@ function qs_custom_urls_callback($args) {
   <div id="app"></div>
 
   <!-- <textarea name="qs_options[value]" id="" cols="30" rows="10"><?= $value; ?></textarea> -->
-  <?php /*
-  <select id="<?= esc_attr($args['label_for']); ?>" data-custom="<?= esc_attr($args['wporg_custom_data']); ?>" name="f[<?= esc_attr($args['label_for']); ?>]">
+  <!-- <select id="<?= esc_attr($args['label_for']); ?>" data-custom="<?= esc_attr($args['wporg_custom_data']); ?>" name="f[<?= esc_attr($args['label_for']); ?>]">
     <option value="red" <?= isset($options[$args['label_for']]) ? (selected($options[$args['label_for']], 'red', false)) : (''); ?>>
       <?php esc_html_e('red pill', 'quicksearch'); ?>
     </option>
     <option value="blue" <?= isset($options[$args['label_for']]) ? (selected($options[$args['label_for']], 'blue', false)) : (''); ?>>
       <?php esc_html_e('blue pill', 'quicksearch'); ?>
     </option>
-  </select>
-  */ ?>
+  </select> -->
 <?php
 }
+
+*/

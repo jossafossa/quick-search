@@ -12,7 +12,7 @@ function qs_acf($actions) {
     "url" => admin_url() . "edit.php?post_type=acf-field-group",
   ];
   $actions["acf_groups_new"] = [
-    "label" => __("New ACF field group", "quicksearch"),
+    "label" => __("Create ACF field group", "quicksearch"),
     "icon" => "dashicons-welcome-widgets-menus",
     "tags" => qs_tags("create", "acf"),
     "type" => "url",

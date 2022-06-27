@@ -6,14 +6,14 @@
 add_filter("qs_actions", "qs_default_ajax_actions", 1, 1);
 function qs_default_ajax_actions($actions) {
   $actions["ajax_save_permalinks"] = [
-    "label" => __("save permalinks", "quicksearch"),
+    "label" => __("Save permalinks", "quicksearch"),
     "icon" => "dashicons-controls-play",
     "tags" => qs_tags("flush", "ajax"),
     "type" => "ajax",
     "action" => "qs_flush_permalinks",
   ];
   $actions["ajax_log_users"] = [
-    "label" => __("log current users", "quicksearch"),
+    "label" => __("Log current users", "quicksearch"),
     "icon" => "dashicons-controls-play",
     "tags" => qs_tags("log", "ajax"),
     "type" => "ajax",
