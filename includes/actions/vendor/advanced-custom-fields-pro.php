@@ -34,5 +34,8 @@ function qs_acf($actions) {
   ];
 
 
+  // todo
+  // ?post_type=acf-field-group&post_status=sync
+
   return $actions;
 };
