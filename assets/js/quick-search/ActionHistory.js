@@ -12,27 +12,22 @@ export default class ActionHistory {
 	}
 
 	get() {
-		let items = this.getUnformatted();
-		return this.actionFormatter.format([...items]);
+		return this.getUnformatted();
 	}
 
 	set(items) {
 		localStorage.setItem("actionHistory", JSON.stringify(items));
 	}
 
-	push(action) {
+	push(actionId) {
 		let items = this.getUnformatted();
-		console.log({action});
-		// console.log("items before", [...items], action);
-		// console.log(action.id, items[0].id);
-		if (items.length > 0 && action.id === items[0].id) return;
-		items.unshift(action);
-		// console.log("items inbetween", [...items], action);
+		console.log({actionId});
+		if (items.length > 0 && actionId === items[0]) return;
+		items.unshift(actionId);
 
 		if (items.length > this.max) {
 			items.pop();
 		}
-		// console.log("items after", [...items], action);
 		this.set(items);
 	}
 

@@ -119,18 +119,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": function() { return /* binding */ ActionHistory; }
 /* harmony export */ });
 /* harmony import */ var _ActionFormatter_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ActionFormatter.js */ "./assets/js/quick-search/ActionFormatter.js");
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -155,8 +143,7 @@ var ActionHistory = /*#__PURE__*/function () {
   }, {
     key: "get",
     value: function get() {
-      var items = this.getUnformatted();
-      return this.actionFormatter.format(_toConsumableArray(items));
+      return this.getUnformatted();
     }
   }, {
     key: "set",
@@ -165,20 +152,17 @@ var ActionHistory = /*#__PURE__*/function () {
     }
   }, {
     key: "push",
-    value: function push(action) {
+    value: function push(actionId) {
       var items = this.getUnformatted();
       console.log({
-        action: action
-      }); // console.log("items before", [...items], action);
-      // console.log(action.id, items[0].id);
-
-      if (items.length > 0 && action.id === items[0].id) return;
-      items.unshift(action); // console.log("items inbetween", [...items], action);
+        actionId: actionId
+      });
+      if (items.length > 0 && actionId === items[0]) return;
+      items.unshift(actionId);
 
       if (items.length > this.max) {
         items.pop();
-      } // console.log("items after", [...items], action);
-
+      }
 
       this.set(items);
     }
@@ -294,6 +278,8 @@ var ActionSelector = /*#__PURE__*/function () {
     this.actionTemplate = template.content.children[0];
 
     this.actionClickEvent = function (e) {};
+
+    this.actionSelectEvent = function (e) {};
   }
 
   _createClass(ActionSelector, [{
@@ -356,6 +342,7 @@ var ActionSelector = /*#__PURE__*/function () {
 
         this.selectedIndex = index;
         this.actions[index].scrollIntoView(false);
+        this.actionSelectEvent(index);
       }
     }
   }, {
@@ -739,13 +726,13 @@ var QuickSearch = /*#__PURE__*/function () {
     }
 
     this.options = Object.values(this.options);
-    console.log(this.options); // setup
+    console.log(options); // setup
 
     this.notifications = new _NotificationDisplay_js__WEBPACK_IMPORTED_MODULE_0__["default"]();
     var actionFormatter = new _ActionFormatter_js__WEBPACK_IMPORTED_MODULE_1__["default"](this.notifications);
     this.actions = actionFormatter.format(options);
     console.log(this.actions);
-    var searcher = new _Searcher_js__WEBPACK_IMPORTED_MODULE_2__["default"](_toConsumableArray(this.options), this.actions);
+    var searcher = new _Searcher_js__WEBPACK_IMPORTED_MODULE_2__["default"](this.actions);
     var input = document.querySelector(".qs-search-term");
     var inputListener = new _InputListener_js__WEBPACK_IMPORTED_MODULE_3__["default"](input);
     this.actionSelector = new _ActionSelector_js__WEBPACK_IMPORTED_MODULE_4__["default"]();
@@ -753,12 +740,12 @@ var QuickSearch = /*#__PURE__*/function () {
     this.actionPopup = new _ActionPopup_js__WEBPACK_IMPORTED_MODULE_5__["default"](popup);
     this.actionHistory = new _ActionHistory_js__WEBPACK_IMPORTED_MODULE_6__["default"](this.notifications); // labels
 
-    var historyTitle = popup.querySelector("[data-qs-history-title]");
-    var clearHistory = popup.querySelector("[data-qs-clear-history]");
-    var searchTitle = popup.querySelector("[data-qs-search-title]");
-    var noneNotice = popup.querySelector("[data-qs-search-none]"); // format actions
+    this.historyTitle = popup.querySelector("[data-qs-history-title]");
+    this.clearHistory = popup.querySelector("[data-qs-clear-history]");
+    this.searchTitle = popup.querySelector("[data-qs-search-title]");
+    this.noneNotice = popup.querySelector("[data-qs-search-none]"); // load initial history
 
-    this.actionResults = this.actionHistory.get(); // setup listeners
+    this.loadHistory(); // setup listeners
 
     this.actionSelector.loadActions(this.actionResults);
     inputListener.onInput(function (value) {
@@ -769,24 +756,17 @@ var QuickSearch = /*#__PURE__*/function () {
         _this.actionSelector.loadActions(_this.actionResults); // update labels
 
 
-        historyTitle.classList.remove("qs-visible");
-        searchTitle.classList.add("qs-visible");
+        _this.historyTitle.classList.remove("qs-visible");
+
+        _this.searchTitle.classList.add("qs-visible");
 
         if (_this.actionResults.length === 0) {
-          noneNotice.classList.add("qs-visible");
+          _this.noneNotice.classList.add("qs-visible");
         } else {
-          noneNotice.classList.remove("qs-visible");
+          _this.noneNotice.classList.remove("qs-visible");
         }
       } else {
-        // load all
-        _this.actionResults = _this.actionHistory.get();
-
-        _this.actionSelector.loadActions(_this.actionResults); // update labels
-
-
-        historyTitle.classList.add("qs-visible");
-        searchTitle.classList.remove("qs-visible");
-        noneNotice.classList.remove("qs-visible");
+        _this.loadHistory();
       }
     });
     inputListener.on("Enter", function (e) {
@@ -797,6 +777,11 @@ var QuickSearch = /*#__PURE__*/function () {
     this.actionSelector.onActionClick(function (index) {
       _this.executeAtIndex(index);
     });
+
+    this.actionSelector.actionSelectEvent = function (index) {
+      _this.prefetch(_this.actions[_this.indexToId(index)]);
+    };
+
     inputListener.on("ArrowUp", function (action) {
       return _this.actionSelector.selectPrev();
     });
@@ -841,7 +826,7 @@ var QuickSearch = /*#__PURE__*/function () {
       return _this.actionPopup.hide();
     }); // clear history
 
-    clearHistory.addEventListener("click", function (e) {
+    this.clearHistory.addEventListener("click", function (e) {
       _this.actionHistory.clearHistory();
 
       _this.actionSelector.loadActions([]);
@@ -849,6 +834,54 @@ var QuickSearch = /*#__PURE__*/function () {
   }
 
   _createClass(QuickSearch, [{
+    key: "prefetch",
+    value: function prefetch(action) {// TODO: prefetch?
+      // console.log(action);
+      // if ('url' in action ) {
+      // 	console.log({preload: action});
+      // 	const prefetcher = document.createElement('link')
+      // 	prefetcher.rel = 'prefetch'
+      // 	prefetcher.href = action.url
+      // 	document.head.appendChild(prefetcher)
+      // }
+    }
+  }, {
+    key: "loadHistory",
+    value: function loadHistory() {
+      // load all
+      this.actionResults = this.getActionsByKeys(this.actionHistory.get());
+      console.log(this.actionHistory.get(), this.actionResults);
+      this.actionSelector.loadActions(this.actionResults);
+      console.log({
+        asdasdasd: this.actionResults
+      }); // update labels
+
+      this.historyTitle.classList.add("qs-visible");
+      this.searchTitle.classList.remove("qs-visible");
+      this.noneNotice.classList.remove("qs-visible");
+    }
+  }, {
+    key: "getActionsByKeys",
+    value: function getActionsByKeys(keys) {
+      var actions = [];
+
+      var _iterator2 = _createForOfIteratorHelper(keys),
+          _step2;
+
+      try {
+        for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+          var key = _step2.value;
+          if (key in this.actions) actions.push(this.actions[key]);
+        }
+      } catch (err) {
+        _iterator2.e(err);
+      } finally {
+        _iterator2.f();
+      }
+
+      return actions;
+    }
+  }, {
     key: "indexToId",
     value: function indexToId(index) {
       console.log({
@@ -859,25 +892,54 @@ var QuickSearch = /*#__PURE__*/function () {
   }, {
     key: "executeAtIndex",
     value: function executeAtIndex(index) {
+      console.log({
+        index: index,
+        results: this.actionResults
+      });
+
       if (index < this.actionResults.length) {
         var id = this.actionResults[index].id;
         var action = this.actions[id];
-        console.log(this.actionResults, index);
+        console.log(action);
+        ;
         action.execute();
         this.actionPopup.hide();
-        this.actionHistory.push(action);
-        this.actionResults = this.actionHistory.get();
-        this.actionSelector.loadActions(this.actionResults);
+        this.actionHistory.push(id);
+        this.loadHistory();
       } else {
         this.actionPopup.shake();
       }
     }
+  }, {
+    key: "addAction",
+    value: function addAction(id, action) {}
   }]);
 
   return QuickSearch;
 }();
 
 
+
+function addUrlAction(id, settings) {
+  var action = Object.assign({
+    "label": "label",
+    "icon": "dashicons-admin-generic",
+    "tags": [],
+    "type": "url",
+    "url": "/robots.txt"
+  }, settings); // if qsActions is not initialized
+
+  if (!("quickSearch" in window)) {
+    qsActions[id] = action;
+  } else {
+    window.quickSearch.addAction(id, action);
+  }
+}
+
+addUrlAction('jossafossa', {
+  label: 'jossafossa action',
+  url: 'https://www.jossafossa.nl/'
+});
 
 /***/ }),
 
@@ -894,19 +956,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var fuzzysort__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! fuzzysort */ "./node_modules/fuzzysort/fuzzysort.js");
 /* harmony import */ var fuzzysort__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(fuzzysort__WEBPACK_IMPORTED_MODULE_0__);
-function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e2) { throw _e2; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e3) { didErr = true; err = _e3; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
+/* harmony import */ var _helpers__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./helpers */ "./assets/js/quick-search/helpers.js");
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
 
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -915,52 +978,68 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 
 // import Fuse from 'fuse.js'
+ // import FuzzySearch from 'fuzzy-search';
+
  // SEARCH THROUGH ACTIONS
 
 var Searcher = /*#__PURE__*/function () {
   function Searcher() {
-    var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-    var actions = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
+    var actions = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 
     _classCallCheck(this, Searcher);
 
-    this.options = options;
-    this.actions = actions;
-    console.log(this.options, this.actions); // let fuseSettings = {
-    // 	keys: [
-    // 		"keywords",
-    // 	],
-    // 	threshold: 0.2,
-    // 	minMatchCharLength: 1,
-    // 	ignoreLocation: true,
-    // 	includeScore: true,
-    // 	findAllMatches: true
-    // };
+    this.actions = actions; // console.log(this.options, this.actions);
     // merge actions into options
-
-    this.optionsCopy = JSON.parse(JSON.stringify(this.options));
-
-    for (var _i = 0, _Object$entries = Object.entries(options); _i < _Object$entries.length; _i++) {
-      var _Object$entries$_i = _slicedToArray(_Object$entries[_i], 2),
-          index = _Object$entries$_i[0],
-          option = _Object$entries$_i[1];
-
-      this.optionsCopy[index].action = actions[option.id];
-    }
-
-    console.log(this.optionsCopy); // this.fuse = new Fuse(optionsCopy, fuseSettings);
+    // this.options = JSON.parse(JSON.stringify(this.options)); // ugly
+    // this.actions = JSON.parse(JSON.stringify(this.actions)); // ugly
+    // for (let [index, option] of Object.entries(options)) {
+    // 	this.options[index].action = this.actions[option.id];
+    // }
+    // console.log(this.options);
   }
 
   _createClass(Searcher, [{
-    key: "search",
-    value: function search(query) {
-      // flags
-      if (this.isFlag(query, "all")) return this.getAll();
-      var formatted = []; // let results = this.fuse.search(query);
+    key: "getSearchable",
+    value: function getSearchable() {
+      return Object.values(this.actions);
+    } // fuzzySearch(query) {
+    // 	let actionArr = this.getSearchable();
+    // 	let searcher = new FuzzySearch(actionArr, ['keywords'], {
+    // 		caseSensitive: true,
+    // 		sort: true,
+    // 	});
+    // 	let results = searcher.search(query);
+    // 	let formatted = [];
+    // 	for (let result of results) {
+    // 		let action = deepCopy(this.actions[result.id]);
+    // 		console.log(this.actions, result.id, action);
+    // 		// highlight
+    // 		const label = this.highlight(query, action.label);
+    // 		if (label) action.label = label;
+    // 		let tags = [];
+    // 		for(let tag of action.tags) {
+    // 			const higlighted =this.highlight(query, tag);
+    // 			tags.push(higlighted ? higlighted : tag);
+    // 		}
+    // 		action.tags = tags;
+    // 		action.matchedChars = 
+    // 		// return
+    // 		formatted.push(action);
+    // 	}
+    // 	return formatted;
+    // }
 
-      var results = fuzzysort__WEBPACK_IMPORTED_MODULE_0___default().go(query, this.optionsCopy, {
-        key: ["keywords"],
-        threshold: -1000,
+  }, {
+    key: "fuzzysort",
+    value: function fuzzysort(query) {
+      var formatted = [];
+      console.log(this.actions); // let results = this.fuse.search(query);
+
+      var actionArr = this.getSearchable();
+
+      var results = fuzzysort__WEBPACK_IMPORTED_MODULE_0___default().go(query, actionArr, {
+        keys: ["keywords"],
+        threshold: -100,
         limit: 30
       });
 
@@ -970,22 +1049,25 @@ var Searcher = /*#__PURE__*/function () {
       try {
         for (_iterator.s(); !(_step = _iterator.n()).done;) {
           var result = _step.value;
-          var action = result.obj.action; // ugly
+          var action = (0,_helpers__WEBPACK_IMPORTED_MODULE_1__.deepCopy)(this.actions[result.obj.id]);
+          var length = 0;
+          console.log(result); // highlight
 
-          console.log(action); // let label = action.label + ".";
-          // highlight
-
-          var label = this.highlight(query, result.obj.label);
+          var highlight = this.highlight(query, action.label);
+          length += highlight.length;
+          var label = highlight.results;
           if (label) action.label = label;
           var tags = [];
 
-          var _iterator2 = _createForOfIteratorHelper(result.obj.tags),
+          var _iterator2 = _createForOfIteratorHelper(action.tags),
               _step2;
 
           try {
             for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
               var tag = _step2.value;
-              var higlighted = this.highlight(query, tag);
+              var tagHighlight = this.highlight(query, tag);
+              var higlighted = tagHighlight.results;
+              length += tagHighlight.length;
               tags.push(higlighted ? higlighted : tag);
             }
           } catch (err) {
@@ -994,7 +1076,8 @@ var Searcher = /*#__PURE__*/function () {
             _iterator2.f();
           }
 
-          action.tags = tags; // return
+          action.tags = tags;
+          action.count = length; // return
 
           formatted.push(action);
         }
@@ -1004,14 +1087,23 @@ var Searcher = /*#__PURE__*/function () {
         _iterator.f();
       }
 
-      console.log(this.actions);
-      console.log(formatted);
+      formatted = formatted.sort(function (a, b) {
+        return a.count < b.count ? 1 : -1;
+      });
       return formatted;
+    }
+  }, {
+    key: "search",
+    value: function search(query) {
+      // flags
+      if (this.isFlag(query, "all")) return this.getAll();
+      return this.fuzzysort(query);
     }
   }, {
     key: "highlight",
     value: function highlight(query, results) {
       var queryArr = query.split(" ");
+      var length = 0;
 
       var _iterator3 = _createForOfIteratorHelper(queryArr),
           _step3;
@@ -1019,8 +1111,13 @@ var Searcher = /*#__PURE__*/function () {
       try {
         for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
           var queryWord = _step3.value;
+
           var highlight = fuzzysort__WEBPACK_IMPORTED_MODULE_0___default().highlight(fuzzysort__WEBPACK_IMPORTED_MODULE_0___default().single(queryWord, results), '[[', ']]');
-          if (highlight) results = highlight;
+
+          if (highlight) {
+            results = highlight;
+            length += _toConsumableArray(highlight.matchAll(/\[\[.*\]\]/g)).join("").length;
+          }
         }
       } catch (err) {
         _iterator3.e(err);
@@ -1030,7 +1127,10 @@ var Searcher = /*#__PURE__*/function () {
 
       results = results.replaceAll('[[', '<span class="qs-highlight">');
       results = results.replaceAll(']]', '</span>');
-      return results;
+      return {
+        results: results,
+        length: length
+      };
     }
   }, {
     key: "isFlag",
@@ -1579,6 +1679,38 @@ var UrlAction = /*#__PURE__*/function (_Action) {
 }(_Action_js__WEBPACK_IMPORTED_MODULE_0__["default"]);
 
 
+
+/***/ }),
+
+/***/ "./assets/js/quick-search/helpers.js":
+/*!*******************************************!*\
+  !*** ./assets/js/quick-search/helpers.js ***!
+  \*******************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "deepCopy": function() { return /* binding */ deepCopy; }
+/* harmony export */ });
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function deepCopy(input) {
+  if (typeof input === "array") return _toConsumableArray(input);
+  if (_typeof(input) === "object") return JSON.parse(JSON.stringify(input));
+}
 
 /***/ }),
 

@@ -18,6 +18,8 @@
   },
   "dependencies": {
     "fuse.js": "^6.5.3",
-    "fuzzysort": "^2.0.1"
+    "fuzzy-search": "^3.2.1",
+    "fuzzysort": "^2.0.1",
+    "instant.page": "^5.1.0"
   }
 }

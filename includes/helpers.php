@@ -31,21 +31,21 @@ function qs_get_post_type_actions($post_type, $default_icon = "dashicons-admin-p
   $actions[sprintf("posttype_%s_create", $post_type)] = [
     "label" => sprintf(__("Create %s", "quicksearch"), $labels->singular_name),
     "icon" =>  $icon,
-    "tags" => qs_tags("create", 'posttype', $post_type, ...$tags),
+    "tags" => qs_tags("create",  $post_type, ...$tags),
     "type" => "url",
     "url" => admin_url() . "post-new.php?post_type={$post_type}",
   ];
   $actions[sprintf("posttype_%s_all", $post_type)] = [
     "label" => sprintf(__("All %s", "quicksearch"), $labels->name),
     "icon" =>  $icon,
-    "tags" => qs_tags("archive", 'posttype', $post_type, ...$tags),
+    "tags" => qs_tags("archive", $post_type,  ...$tags),
     "type" => "url",
     "url" => admin_url() . "edit.php?post_type={$post_type}",
   ];
   $actions[sprintf("posttype_%s_thrash", $post_type)] = [
     "label" => sprintf(__("Trashed %s", "quicksearch"), $labels->name),
     "icon" =>  $icon,
-    "tags" => qs_tags("removed", 'posttype', $post_type, ...$tags),
+    "tags" => qs_tags("removed",  $post_type, ...$tags),
     "type" => "url",
     "url" => admin_url() . "edit.php?post_status=trash&post_type={$post_type}",
   ];

@@ -8,6 +8,7 @@ export default class ActionSelector {
 		this.actionTemplate = template.content.children[0];
 		
 		this.actionClickEvent = e => {};
+		this.actionSelectEvent = e => {};
 	}
 	
 	getActionHTML(action) {
@@ -45,6 +46,7 @@ export default class ActionSelector {
 			// console.log(this.actions, index, action);
 			this.selectedIndex = index;
 			this.actions[index].scrollIntoView(false);
+			this.actionSelectEvent(index);
 		}
 	}
 	

@@ -25,7 +25,10 @@ add_action('admin_enqueue_scripts', function () {
       "nonce" => $qs_nonce
     ]
   );
+});
 
+add_action( 'admin_init', function() {
+  
   // get actions
   $actions = apply_filters("qs_actions", []);
   
@@ -35,14 +38,14 @@ add_action('admin_enqueue_scripts', function () {
     unset($actions[$disabled_action]);
   }
 
-  wp_localize_script(
-    'qs-scripts',
-    'qsActions',
-    $actions
+  wp_register_script( 'qs-actions', '',);
+  wp_enqueue_script( 'qs-actions' );
+  wp_add_inline_script(
+    'qs-actions',
+    "let qsActions = " . json_encode($actions),
+    "before"
   );
-
-
-});
+} );
 
 
 // -------------------------------------------- //

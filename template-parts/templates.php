@@ -14,7 +14,10 @@
 
     </div>
 
-    <h2 class="qs-hidden qs-visible" data-qs-history-title><?= __('Action History', 'quicksearch'); ?> <button data-qs-clear-history>Clear history</button></h2>
+    <h2 class="qs-hidden qs-visible" data-qs-history-title>
+       <?= __('Action History', 'quicksearch'); ?>
+      <button data-qs-clear-history>Clear history</button>
+    </h2>
     <h2 class="qs-hidden" data-qs-search-title><?= __('Search Results', 'quicksearch'); ?></h2>
     <span class="qs-hidden qs-action" data-qs-search-none tabindex="0">
       <p><?= __('No actions found', 'quicksearch'); ?></p>

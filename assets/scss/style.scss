@@ -199,6 +199,9 @@
       font-size: 100%;
       padding: 0 var(--qs-spacing);
       margin-bottom: var(--qs-spacing);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
 
     > .qs-input-container {
@@ -315,12 +318,8 @@
   }
 
   // hidden elements
-  .qs-hidden {
+  .qs-hidden:not(.qs-visible) {
     display: none;
-
-    &.qs-visible {
-      display: block;
-    }
   }
 }
 

@@ -15,7 +15,6 @@ export default class QuickSearch {
 		}, settings)
 		this.shortcutValidator = settings.shortcutValidator;
 
-
     // actions
 		// this.options = Object.values(options); // hack
 		this.options = options; // hack
@@ -24,7 +23,7 @@ export default class QuickSearch {
 			option.keywords = [option.label, ...option.tags].join(" ");
 		}
 		this.options = Object.values(this.options);
-		console.log(this.options);
+		console.log(options);
 
 
 
@@ -37,7 +36,7 @@ export default class QuickSearch {
     
 		console.log(this.actions);
     
-		let searcher = new Searcher([...this.options], this.actions);
+		let searcher = new Searcher(this.actions);
     
 		let input = document.querySelector(".qs-search-term");
 		let inputListener = new InputListener(input);
@@ -51,18 +50,19 @@ export default class QuickSearch {
 
 
 		// labels
-		const historyTitle = popup.querySelector("[data-qs-history-title]");
-		const clearHistory = popup.querySelector("[data-qs-clear-history]");
-		const searchTitle = popup.querySelector("[data-qs-search-title]");
-		const noneNotice = popup.querySelector("[data-qs-search-none]");
+		this.historyTitle = popup.querySelector("[data-qs-history-title]");
+		this.clearHistory = popup.querySelector("[data-qs-clear-history]");
+		this.searchTitle = popup.querySelector("[data-qs-search-title]");
+		this.noneNotice = popup.querySelector("[data-qs-search-none]");
 
 
 		
 
 
 
-		// format actions
-		this.actionResults = this.actionHistory.get();
+		// load initial history
+		this.loadHistory();
+
 
 
 		// setup listeners
@@ -75,24 +75,16 @@ export default class QuickSearch {
 				this.actionSelector.loadActions(this.actionResults);
 
 				// update labels
-				historyTitle.classList.remove("qs-visible");
-				searchTitle.classList.add("qs-visible");
+				this.historyTitle.classList.remove("qs-visible");
+				this.searchTitle.classList.add("qs-visible");
 				if (this.actionResults.length === 0) {
-					noneNotice.classList.add("qs-visible");
+					this.noneNotice.classList.add("qs-visible");
 				} else {
-					noneNotice.classList.remove("qs-visible");
+					this.noneNotice.classList.remove("qs-visible");
 				}
 
-			} else {
-				// load all
-				this.actionResults = this.actionHistory.get();
-				this.actionSelector.loadActions(this.actionResults);
-
-				// update labels
-				historyTitle.classList.add("qs-visible");
-				searchTitle.classList.remove("qs-visible");
-				noneNotice.classList.remove("qs-visible");
-
+			} else {	
+				this.loadHistory();
 			}
 		})
 
@@ -104,6 +96,9 @@ export default class QuickSearch {
 		this.actionSelector.onActionClick(index => {
 			this.executeAtIndex(index);
 		});
+		this.actionSelector.actionSelectEvent = (index) => {
+			this.prefetch(this.actions[this.indexToId(index)]);
+		};
 
 		inputListener.on("ArrowUp", action => this.actionSelector.selectPrev())
 		inputListener.on("ArrowDown", action => this.actionSelector.selectNext())
@@ -133,11 +128,46 @@ export default class QuickSearch {
 
 
 		// clear history
-		clearHistory.addEventListener("click", e => {
+		this.clearHistory.addEventListener("click", e => {
 			this.actionHistory.clearHistory();
 			this.actionSelector.loadActions([]);
 		});
 
+	}
+
+	
+	prefetch(action) {
+		// TODO: prefetch?
+		// console.log(action);
+		// if ('url' in action ) {
+		// 	console.log({preload: action});
+		// 	const prefetcher = document.createElement('link')
+		// 	prefetcher.rel = 'prefetch'
+		// 	prefetcher.href = action.url
+		// 	document.head.appendChild(prefetcher)
+		// }
+	}
+	
+	loadHistory() {
+		// load all
+		this.actionResults = this.getActionsByKeys(this.actionHistory.get());
+		console.log(this.actionHistory.get(), this.actionResults);
+		this.actionSelector.loadActions(this.actionResults);
+
+		console.log({asdasdasd: this.actionResults});
+
+		// update labels
+		this.historyTitle.classList.add("qs-visible");
+		this.searchTitle.classList.remove("qs-visible");
+		this.noneNotice.classList.remove("qs-visible");
+	}
+
+	getActionsByKeys(keys) {
+		let actions = [];
+		for(let key of keys) {
+			if (key in this.actions) actions.push(this.actions[key]);
+		}
+		return actions;
 	}
 	
 	indexToId(index) {
@@ -146,17 +176,45 @@ export default class QuickSearch {
 	}
 	
 	executeAtIndex(index) {
+		console.log({index, results: this.actionResults })
 		if (index < this.actionResults.length) {
 			let id = this.actionResults[index].id;
 			let action = this.actions[id];
-			console.log(this.actionResults, index);
+			console.log(action);;
 			action.execute();
 			this.actionPopup.hide();
-			this.actionHistory.push(action);
-			this.actionResults = this.actionHistory.get();
-			this.actionSelector.loadActions(this.actionResults);
+			this.actionHistory.push(id);
+			this.loadHistory();
 		} else {
 			this.actionPopup.shake();
 		}
 	}
+
+	addAction(id, action) {
+
+	}
+	
 }
+
+function addUrlAction(id, settings) {
+	let action = Object.assign({
+		"label": "label",
+		"icon": "dashicons-admin-generic",
+		"tags": [],
+		"type": "url",
+		"url": "/robots.txt",
+	}, settings);
+	
+	// if qsActions is not initialized
+	if (!("quickSearch" in window) ) {
+		qsActions[id] = action;
+	} else {
+		window.quickSearch.addAction(id, action);
+	}
+	
+}
+
+addUrlAction('jossafossa', {
+	label: 'jossafossa action',
+	url: 'https://www.jossafossa.nl/'
+})

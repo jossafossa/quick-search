@@ -1,87 +1,133 @@
 // import Fuse from 'fuse.js'
 import fuzzysort from 'fuzzysort';
+// import FuzzySearch from 'fuzzy-search';
+import {deepCopy} from './helpers'
 
 // SEARCH THROUGH ACTIONS
 export default class Searcher {
-	constructor(options = [], actions = []) {
-		this.options = options;
+	constructor(actions = []) {
 		this.actions = actions;
-
-		console.log(this.options, this.actions);
 		
-		// let fuseSettings = {
-		// 	keys: [
-		// 		"keywords",
-		// 	],
-		// 	threshold: 0.2,
-		// 	minMatchCharLength: 1,
-		// 	ignoreLocation: true,
-		// 	includeScore: true,
-		// 	findAllMatches: true
-		// };
+		// console.log(this.options, this.actions);
 		
 		// merge actions into options
-    
-    this.optionsCopy = JSON.parse(JSON.stringify(this.options));
+    // this.options = JSON.parse(JSON.stringify(this.options)); // ugly
+    // this.actions = JSON.parse(JSON.stringify(this.actions)); // ugly
 
-		for (let [index, option] of Object.entries(options)) {
-			this.optionsCopy[index].action = actions[option.id];
-		}
-		console.log(this.optionsCopy);
-		
-		// this.fuse = new Fuse(optionsCopy, fuseSettings);
-		
+		// for (let [index, option] of Object.entries(options)) {
+		// 	this.options[index].action = this.actions[option.id];
+		// }
+		// console.log(this.options);
 	}
 	
-	search(query) {
-    // flags
-    if (this.isFlag(query, "all")) return this.getAll();
+	getSearchable() {
+		return Object.values(this.actions);
+	}
+
+	// fuzzySearch(query) {
+	// 	let actionArr = this.getSearchable();
+	// 	let searcher = new FuzzySearch(actionArr, ['keywords'], {
+	// 		caseSensitive: true,
+	// 		sort: true,
+
+	// 	});
+
+	// 	let results = searcher.search(query);
+		
+	// 	let formatted = [];
+
+	// 	for (let result of results) {
+	// 		let action = deepCopy(this.actions[result.id]);
+	// 		console.log(this.actions, result.id, action);
+
+	// 		// highlight
+	// 		const label = this.highlight(query, action.label);
+	// 		if (label) action.label = label;
+
+	// 		let tags = [];
+	// 		for(let tag of action.tags) {
+	// 			const higlighted =this.highlight(query, tag);
+	// 			tags.push(higlighted ? higlighted : tag);
+	// 		}
+	// 		action.tags = tags;
+			
+	// 		action.matchedChars = 
+
+	// 		// return
+	// 		formatted.push(action);
+			
+	// 	}
+
+	// 	return formatted;
+	// }
+	
+
+	fuzzysort(query) {
 
 		let formatted = [];
+
+		console.log(this.actions);
 		
 		// let results = this.fuse.search(query);
-		let results = fuzzysort.go(query, this.optionsCopy, {
-			key: ["keywords"],
-			threshold: -1000,
+		let actionArr = this.getSearchable();
+		let results = fuzzysort.go(query, actionArr, {
+			keys: ["keywords"],
+			threshold: -100,
 			limit: 30,
 		})
-		for (let result of results) {
-			let action = result.obj.action; // ugly
-			console.log(action);
 
-			// let label = action.label + ".";
+		for (let result of results) {
+			let action = deepCopy(this.actions[result.obj.id]);
+			let length = 0;
+			console.log(result)
 
 			// highlight
-			const label = this.highlight(query, result.obj.label);
+			let highlight = this.highlight(query, action.label);
+				length+= highlight.length;
+				const label = highlight.results;
 			if (label) action.label = label;
 
 			let tags = [];
-			for(let tag of result.obj.tags) {
-				const higlighted =this.highlight(query, tag);
+			for(let tag of action.tags) {
+				let tagHighlight = this.highlight(query, tag);
+				const higlighted = tagHighlight.results;
+				length+= tagHighlight.length;
 				tags.push(higlighted ? higlighted : tag);
 			}
 			action.tags = tags;
+			action.count = length;
 
 			// return
 			formatted.push(action);
-			
 		}
 
-		console.log(this.actions);
-		console.log(formatted);
+		formatted = formatted.sort((a, b) => (a.count < b.count) ? 1 : -1);
+
 		return formatted;
+	}
+	
+	search(query) {
+		// flags
+		if (this.isFlag(query, "all")) return this.getAll();
+
+   return this.fuzzysort(query);
 	}
 
 	highlight(query, results) {
 		const queryArr = query.split(" ");
+		let length = 0;
 		for(let queryWord of queryArr) {
 			const highlight = fuzzysort.highlight(fuzzysort.single(queryWord, results), '[[', ']]');
-			if (highlight) results = highlight;
+			if (highlight) {
+				results = highlight;
+				length += [...highlight.matchAll(/\[\[.*\]\]/g)].join("").length;
+			}
 		}
 		results = results.replaceAll('[[', '<span class="qs-highlight">');
 		results = results.replaceAll(']]', '</span>');
-		return results;
+		return {results, length};
 	}
+
 
 	isFlag(query, flag) {
 		return [
