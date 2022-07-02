@@ -13,7 +13,7 @@ function qs_log($data, $echo = true) {
 
 
 function qs_get_settings_url() {
-  return menu_page_url('qs_option_group', false);
+  return menu_page_url('qs_settings', false);
 }
 
 function qs_get_option($key) {

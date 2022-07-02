@@ -1,5 +1,6 @@
 <?php
 
+
 // -------------------------------------------- //
 // REGISTER MENU
 // -------------------------------------------- //
@@ -9,7 +10,7 @@ function qs_options_page() {
     'Quick search',
     'Quick search Options',
     'manage_options',
-    'qs_option_group',
+    'qs_settings',
     'qs_options_page_html'
   );
 }
@@ -22,14 +23,14 @@ add_action('admin_menu', 'qs_options_page');
 function qs_settings_init() {
 
   // REGISTER OPTION GROUPS
-  register_setting('qs_option_group', 'qs_options');
+  register_setting('qs_settings', 'qs_options');
 
   // REGISTER SETTINGS
   add_settings_section(
     'qs_general_section',
     __('', 'quicksearch'),
     'qs_general_section_callback',
-    'qs_option_group'
+    'qs_settings'
   );
 }
 add_action('admin_init', 'qs_settings_init');
@@ -41,7 +42,7 @@ add_action('admin_init', 'qs_settings_init');
 function qs_enqueue_settings_scripts($hook_suffix) {
 
   // bail early if the settings page is not correct
-  if ($hook_suffix != 'settings_page_qs_option_group') return;
+  if ($hook_suffix != 'settings_page_qs_settings') return;
 
   // scripts
   wp_register_script("qs_settings", QS_PLUGIN_URL . 'build/js/settings.js');
@@ -78,13 +79,11 @@ function qs_options_page_html() {
   if (!current_user_can('manage_options')) {
     return;
   }
-
 ?>
   <div class="wrap">
     <h1><?= esc_html(get_admin_page_title()); ?></h1>
     <form action="options.php" method="post">
-      
-      <?php settings_fields('qs_option_group'); ?>
+      <?php settings_fields('qs_settings'); ?>
       <?php 
         // Get the value of the setting we've registered with register_setting()
         $saved_urls = qs_get_option("custom_urls");
@@ -98,15 +97,16 @@ function qs_options_page_html() {
             $enabled_actions[] = $id;
           }
         }
-        ?>
-        <script>
-          window.qsCustomURLs = <?= json_encode($saved_urls); ?>;
-          window.qsAllActions = <?= json_encode($actions); ?>;
-          window.qsEnabledActions = <?= json_encode($enabled_actions); ?>;
-          window.qsDisabledActions = <?= json_encode($disabled_actions); ?>;
-        </script>
+      ?>
+      <script>
+        window.qsCustomURLs = <?= json_encode($saved_urls); ?>;
+        window.qsAllActions = <?= json_encode($actions); ?>;
+        window.qsEnabledActions = <?= json_encode($enabled_actions); ?>;
+        window.qsDisabledActions = <?= json_encode($disabled_actions); ?>;
+      </script>
 
-        <div id="app"></div>
+      <div id="app"></div>
+
       <?php submit_button('Save Settings');?>
     </form>
   </div>
@@ -125,7 +125,7 @@ function qs_custom_items() {
     'custom_urls',
     __('Custom Shortcuts', 'quicksearch'),
     'qs_custom_urls_callback',
-    'qs_option_group',
+    'qs_settings',
     'qs_general_section',
     array(
       // 'label_for'         => 'qs_field_pill',
