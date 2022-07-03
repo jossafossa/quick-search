@@ -79,7 +79,9 @@
           </ActionList>
         </ExcludedActions>
       </tab>
-      <tab name="second"> Second tabasdasd </tab>
+      <tab name="Get premium">
+        <License></License>
+      </tab>
     </tabs>
   </div>
 </template>
@@ -93,6 +95,7 @@ import ActionList from "@/components/ActionList.vue";
 import Action from "@/components/Action.vue";
 import Tab from "@/components/Tab.vue";
 import Tabs from "@/components/Tabs.vue";
+import License from "@/components/License.vue";
 
 import { onMounted, ref } from "vue";
 
