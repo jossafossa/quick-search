@@ -17,7 +17,7 @@
       role="tab"
     ></a>
   </nav>
-  <div class="tab-content">
+  <div class="tab-content qs-tab-content">
     <slot />
   </div>
 </template>
@@ -215,3 +215,9 @@ export default {
   },
 };
 </script>
+
+<style lang="scss">
+.qs-tab-content {
+  padding-top: 1rem;
+}
+</style>

@@ -5,15 +5,14 @@
       <slot></slot>
       <span>},</span>
     </div>
-    <button @click.prevent="emit('remove')">x</button>
+    <button class="qs-button" @click.prevent="emit('remove')">x</button>
   </div>
 </template>
 
 <script setup>
-
 // import ShortcutInput from '@/components/ShortcutInput'
 
-import { defineEmits } from 'vue';
+import { defineEmits } from "vue";
 // const props = defineProps({
 //   type: String,
 //   index: Number,
@@ -188,15 +187,13 @@ const icons = {
   "dashicons-desktop": "f472",
   "dashicons-tablet": "f471",
   "dashicons-smartphone": "f470",
-  "dashicons-smiley": "f328"
+  "dashicons-smiley": "f328",
 };
 console.log(icons);
 
-const emit = defineEmits(["remove", 'add']);
+const emit = defineEmits(["remove", "add"]);
 
 // const namePrefix = `qs_options[${props.name}][${props.index}]`;
-
-
 </script>
 
 <style lang="scss" scoped>
@@ -206,27 +203,23 @@ const emit = defineEmits(["remove", 'add']);
   font-family: monospace;
   align-items: stretch;
 
-  >.shortcut-inputs {
+  > .shortcut-inputs {
     flex: 1;
   }
 
-  >button {
-    background-color: transparent;
-    color: white;
-    padding: 1rem .5rem;
+  > button {
+    padding: 1rem 0.5rem;
     cursor: pointer;
     border: none;
     font-family: inherit;
-    background-color: rgba(0, 0, 0, 0.2);
-    margin: calc(var(--bracket-size) - .25rem) 0;
+    margin: calc(var(--bracket-size) - 0.25rem) 0;
   }
 }
-
 .shortcut-inputs {
   display: flex;
   flex-direction: column;
 
-  >span {
+  > span {
     opacity: 0.5;
     height: var(--bracket-size);
   }

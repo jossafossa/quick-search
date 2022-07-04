@@ -2,6 +2,14 @@
   <div class="settings">
     <tabs>
       <tab name="general">
+        <h2>Dark mode</h2>
+        <input
+          name="qs_options[dark_mode]"
+          :checked="settings.dark_mode ? 'on' : null"
+          @change="toggleDarkColorScheme"
+          type="checkbox"
+        />
+
         <h2>Custom url actions</h2>
         <Shortcuts name="custom_urls" type="url" @add="addURL">
           <Shortcut
@@ -79,9 +87,31 @@
           </ActionList>
         </ExcludedActions>
       </tab>
-      <tab name="Get premium">
+      <tab name="License">
         <License></License>
       </tab>
+      <tab name="Get premium">
+        <h2>Support WpQuickSearch and get these awesome features</h2>
+
+        <ul>
+          <li>
+            Get integrations with more than 10 plugins like ACF and Gravity
+            forms
+          </li>
+          <li>
+            Add custom actions from the settings from the wordpress backend
+          </li>
+          <li>Disable specific actions</li>
+          <li>Switch between dark and light mode</li>
+          <li>Bind shortcuts to actions</li>
+        </ul>
+
+        <a href="https://www.jossafossa.nl/wpQuickSearch" class="button primary"
+          >Get premium</a
+        >
+      </tab>
+
+      <tab name="Changelog"> </tab>
     </tabs>
   </div>
 </template>
@@ -102,6 +132,7 @@ import { onMounted, ref } from "vue";
 const shortcuts = ref([]);
 const enabledActions = ref([]);
 const actions = ref({});
+const settings = ref({});
 const disabledActions = ref([]);
 const shortcutElements = ref([]);
 const customURLNamePrefix = `qs_options[custom_urls]`;
@@ -117,6 +148,7 @@ const defaultShortcut = {
 onMounted(() => {
   shortcuts.value = window.qsCustomURLs;
   actions.value = window.qsAllActions;
+  settings.value = window.qsSettings;
 
   const disabledEntries = Object.entries(window.qsAllActions).filter(
     ([key]) => {
@@ -170,12 +202,34 @@ const disableAll = () => {
   disabledActions.value = actions.value;
   enabledActions.value = [];
 };
+
+// color scheme
+const toggleDarkColorScheme = (e) => {
+  if (e.target.checked) {
+    document.body.classList.add("qs-dark");
+  } else {
+    document.body.classList.remove("qs-dark");
+  }
+};
 </script>
 
 <style lang="scss">
 #app {
-  --qs-background: #1d2327;
-  --qs-foreground: #2c3337;
-  --qs-highlight: #3f484e;
+  // --qs-background: #1d2327;
+  // --qs-foreground: #2c3337;
+  // --qs-highlight: #3f484e;
+}
+
+.qs-button {
+  border: 0px solid red;
+  background-color: var(--qs-action-background);
+  color: var(--qs-action-color);
+  cursor: pointer;
+  padding: 0.25rem 1rem;
+
+  &:hover {
+    background-color: var(--qs-action-active-background);
+    color: var(--qs-action-active-color);
+  }
 }
 </style>
