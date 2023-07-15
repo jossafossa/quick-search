@@ -1,5 +1,5 @@
 <template>
-  <div class="shortcuts">
+  <div class="shortcuts vstack gap-1">
     <slot></slot>
     <button class="qs-button" @click.prevent="emit('add')">+</button>
   </div>
@@ -21,16 +21,11 @@ const emit = defineEmits(["add", "remove"]);
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 .shortcuts {
-  --shortcuts-background: var(--qs-background);
-  --shortcut-input-background: var(--qs-foreground);
-  --shortcut-input-focus-background: var(--qs-highlight);
-  border: 1px solid var(--qs-border);
   background-color: var(--shortcuts-background);
   color: var(--qs-color);
-  padding: 1rem;
+  border-radius: var(--border-radius);
 
   > button {
-    margin-top: 0.5rem;
     border: none;
     width: 100%;
     padding: 0.25rem 1rem;

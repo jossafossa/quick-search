@@ -1,9 +1,8 @@
 <template>
-  <nav class="nav-tab-wrapper">
+  <nav class="tab">
     <a
       v-for="(tab, i) in tabs"
       :key="i"
-      class="nav-tab"
       v-html="tab.header"
       :aria-controls="tab.hash"
       :aria-selected="tab.isActive"
@@ -12,7 +11,7 @@
       :class="[
         navItemClass,
         tab.isDisabled ? navItemDisabledClass : '',
-        tab.isActive ? 'nav-tab-active' : '',
+        tab.isActive ? 'is-active' : '',
       ]"
       role="tab"
     ></a>
@@ -219,5 +218,27 @@ export default {
 <style lang="scss">
 .qs-tab-content {
   padding-top: 1rem;
+}
+
+.tab {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  box-shadow: 0 -1px 0 0 var(--border-color) inset;
+
+  > a {
+    padding: 0.75rem 0;
+    background-color: transparent;
+    text-decoration: none;
+    transition: var(--qs-transition);
+    font-weight: 500;
+    box-shadow: 2px 0 0 0 transparent inset;
+
+    &.is-active,
+    &:hover,
+    &:focus {
+      box-shadow: 0 -2px 0 0 var(--primary) inset;
+    }
+  }
 }
 </style>

@@ -199,6 +199,9 @@ const emit = defineEmits(["remove", "add"]);
 <style lang="scss" scoped>
 .shortcut {
   --bracket-size: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: var(--foreground);
+  border-radius: var(--border-radius);
   display: flex;
   font-family: monospace;
   align-items: stretch;

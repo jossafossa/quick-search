@@ -1,0 +1,7 @@
+:where(*) {
+  color: inherit;
+}
+
+:where(h1, h2, h3, h4, h5, h6, p, ul, ol, li, blockquote, pre, hr, dl, dt, dd, figure, table, fieldset, legend, details, summary) {
+  margin: 0;
+}

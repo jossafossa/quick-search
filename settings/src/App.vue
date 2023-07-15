@@ -2,90 +2,108 @@
   <div class="settings">
     <tabs>
       <tab name="general">
-        <h2>Dark mode</h2>
-        <input
-          name="qs_options[dark_mode]"
-          :checked="settings.dark_mode ? 'on' : null"
-          @change="toggleDarkColorScheme"
-          type="checkbox"
-        />
+        <div class="vstack gap-2">
+          <section>
+            <div class="hstack gap-half">
+              <h2>Dark mode</h2>
 
-        <h2>Custom url actions</h2>
-        <Shortcuts name="custom_urls" type="url" @add="addURL">
-          <Shortcut
-            @remove="removeURL(index)"
-            @add="addURL(index)"
-            :name="name"
-            :type="type"
-            v-for="(shortcut, index) of shortcuts"
-            :key="index"
-            :index="index"
-            :shortcut="shortcut"
-          >
-            <ShortcutInput
-              label="label"
-              type="text"
-              :namePrefix="`${customURLNamePrefix}[${index}]`"
-              :value="shortcut.label"
-            />
-            <ShortcutInput
-              label="icon"
-              type="text"
-              :namePrefix="`${customURLNamePrefix}[${index}]`"
-              :value="shortcut.icon"
-            />
-            <ShortcutInput
-              label="type"
-              type="hidden"
-              :namePrefix="`${customURLNamePrefix}[${index}]`"
-              :value="shortcut.type"
-            />
-            <ShortcutInput
-              label="url"
-              type="text"
-              :namePrefix="`${customURLNamePrefix}[${index}]`"
-              :value="shortcut.url"
-            />
-          </Shortcut>
-        </Shortcuts>
-
-        <h2>Exclude specific actions</h2>
-        <ExcludedActions>
-          <ActionList
-            title="Enabled actions"
-            button="Enable all"
-            @buttonClick="enableAll"
-          >
-            <Action
-              v-for="(action, actionID) of enabledActions"
-              :key="actionID"
-              :action="action"
-              :id="actionID"
-              @click="disableAction(actionID)"
-            >
-            </Action>
-          </ActionList>
-
-          <ActionList
-            title="Disabled actions"
-            button="Disable all"
-            @buttonClick="disableAll"
-          >
-            <Action
-              v-for="(action, actionID) of disabledActions"
-              :key="actionID"
-              :action="action"
-              :id="actionID"
-              @click="enableAction(actionID)"
-            >
               <input
-                type="hidden"
-                :name="disabledActionsName"
-                :value="actionID"
+                name="qs_options[dark_mode]"
+                :checked="settings.dark_mode ? 'on' : null"
+                @change="toggleDarkColorScheme"
+                type="checkbox"
               />
-            </Action>
-          </ActionList>
-        </ExcludedActions>
+            </div>
+          </section>
+          <hr />
+
+          <section>
+            <div class="vstack gap-half">
+              <h2>Custom url actions</h2>
+              <Shortcuts name="custom_urls" type="url" @add="addURL">
+                <Shortcut
+                  @remove="removeURL(index)"
+                  @add="addURL(index)"
+                  :name="name"
+                  :type="type"
+                  v-for="(shortcut, index) of shortcuts"
+                  :key="index"
+                  :index="index"
+                  :shortcut="shortcut"
+                >
+                  <ShortcutInput
+                    label="label"
+                    type="text"
+                    :namePrefix="`${customURLNamePrefix}[${index}]`"
+                    :value="shortcut.label"
+                  />
+                  <ShortcutInput
+                    label="icon"
+                    type="text"
+                    :namePrefix="`${customURLNamePrefix}[${index}]`"
+                    :value="shortcut.icon"
+                  />
+                  <ShortcutInput
+                    label="type"
+                    type="hidden"
+                    :namePrefix="`${customURLNamePrefix}[${index}]`"
+                    :value="shortcut.type"
+                  />
+                  <ShortcutInput
+                    label="url"
+                    type="text"
+                    :namePrefix="`${customURLNamePrefix}[${index}]`"
+                    :value="shortcut.url"
+                  />
+                </Shortcut>
+              </Shortcuts>
+            </div>
+          </section>
+
+          <hr />
+
+          <section>
+            <div class="vstack gap-half">
+              <h2>Exclude specific actions</h2>
+              <ExcludedActions>
+                <ActionList
+                  title="Enabled actions"
+                  button="Enable all"
+                  @buttonClick="enableAll"
+                >
+                  <Action
+                    v-for="(action, actionID) of enabledActions"
+                    :key="actionID"
+                    :action="action"
+                    :id="actionID"
+                    @click="disableAction(actionID)"
+                  >
+                  </Action>
+                </ActionList>
+
+                <ActionList
+                  title="Disabled actions"
+                  button="Disable all"
+                  @buttonClick="disableAll"
+                >
+                  <Action
+                    v-for="(action, actionID) of disabledActions"
+                    :key="actionID"
+                    :action="action"
+                    :id="actionID"
+                    @click="enableAction(actionID)"
+                  >
+                    <input
+                      type="hidden"
+                      :name="disabledActionsName"
+                      :value="actionID"
+                    />
+                  </Action>
+                </ActionList>
+              </ExcludedActions>
+            </div>
+          </section>
+        </div>
       </tab>
       <tab name="License">
         <License></License>
@@ -214,22 +232,68 @@ const toggleDarkColorScheme = (e) => {
 </script>
 
 <style lang="scss">
+.qs-settings {
+  @import "assets/scss/style.scss";
+}
+
+:root {
+  --qs-backdrop: rgba(0, 0, 0, 0.7);
+  --qs-background: #1c2228;
+  --qs-foreground: #282f36;
+  --qs-border: #1d2124;
+  --qs-color: #1d2327;
+  --qs-highlight: #3f484e;
+  --qs-input-background: var(--qs-foreground);
+  --qs-input-outline-color: rgba(34, 113, 177, 0.7);
+  --qs-input-placeholder-color: rgba(255, 255, 255, 0.3);
+  --qs-color: white;
+  --qs-selection: rgb(159, 206, 255, 0.35);
+  --qs-radius: 0px;
+  --qs-spacing: 12px;
+  --qs-action-background: var(--qs-foreground);
+  --qs-action-color: white;
+  --qs-action-active-background: #2271b1;
+  --qs-action-active-color: white;
+}
+
 #app {
+  --background: #fff;
+  --foreground: #f5f5f5;
+  --primary: #007cba;
+  --border-color: var(--foreground);
+  --border-radius: 0.5rem;
+
+  // buttons
+  --button-color: white;
+  --button-background: var(--primary);
+
+  border-radius: 0.5rem;
+  padding: 1rem;
+
   // --qs-background: #1d2327;
   // --qs-foreground: #2c3337;
   // --qs-highlight: #3f484e;
+
+  background-color: var(--background);
+
+  .qs-dark & {
+    --background: #1c2228;
+    --foreground: #282f36;
+    color: white;
+  }
 }
 
 .qs-button {
   border: 0px solid red;
-  background-color: var(--qs-action-background);
+  background-color: var(--primary);
   color: var(--qs-action-color);
   cursor: pointer;
-  padding: 0.25rem 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: var(--border-radius);
 
   &:hover {
-    background-color: var(--qs-action-active-background);
-    color: var(--qs-action-active-color);
+    background-color: var(--button-background);
+    color: vaR(--button-color);
   }
 }
 </style>

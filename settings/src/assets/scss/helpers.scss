@@ -1,0 +1,26 @@
+.text-border {
+  color: var(--border-color);
+}
+
+.vstack {
+  display: flex;
+  flex-direction: column;
+}
+
+.hstack {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+$gaps: (
+  1: 1rem,
+  2: 2rem,
+  half: 0.5rem,
+);
+
+@each $key, $value in $gaps {
+  .gap-#{$key} {
+    gap: $value;
+  }
+}

@@ -56,7 +56,8 @@ const uuid = `${props.label}-${Math.floor(Math.random() * 1000)}`;
   position: relative;
   padding: .25rem;
   margin: -.25rem 0;
-  background-color: var(--shortcut-input-background, rgb(22, 22, 22));
+  background-color: var(--background);
+  border-radius: var(--border-radius);
   z-index: 0;
 
   >span {
@@ -79,7 +80,6 @@ const uuid = `${props.label}-${Math.floor(Math.random() * 1000)}`;
 
   &:focus-within {
     z-index: 2;
-    background-color: var(--shortcut-input-focus-background, rgb(44, 44, 44));
   }
 
   >input {
